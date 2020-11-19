@@ -35,7 +35,7 @@ class OpenWeatherAPI: WeatherServiceProtocol {
             }
             break
         case .gpsCoord:
-            searchByGps(query) { result in
+            searchByCoord(query) { result in
                 completionHandler(result)
             }
             break
@@ -71,7 +71,7 @@ class OpenWeatherAPI: WeatherServiceProtocol {
         dataTask?.resume()
     }
     
-    private func searchByGps(_ query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)-> Void) {
+    private func searchByCoord(_ query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)-> Void) {
         let urlComponent: URLComponents? = generateCoordSearchUrl(query)
         guard let url = urlComponent?.url else { completionHandler(.failure(.invalidParam)); return }
         dataTask = session.dataTask(with: url) { [weak self] data, response, err in
@@ -98,6 +98,7 @@ class OpenWeatherAPI: WeatherServiceProtocol {
             let result: WeatherForecast = try resultDecoder.decode(WeatherForecast.self, from: data)
             completionHandler(.success(result))
         } catch let err {
+            print(err)
             completionHandler(.failure(.genericError))
         }
     }
@@ -132,7 +133,11 @@ class OpenWeatherAPI: WeatherServiceProtocol {
     }
     
     private func generateCoordSearchUrl(_ query: WeatherSearchRequest)->URLComponents? {
+        let LatitudeMax = 90.0
+        let LongitudeMax = 180.0
         guard let coord = query.coord else { return nil }
+        guard coord.longitude >= -1*LongitudeMax && coord.longitude <= LongitudeMax else { return nil }
+        guard coord.latitude >= -1*LatitudeMax && coord.latitude <= LatitudeMax else { return nil }
         let longitude = String(coord.longitude)
         let latitude = String(coord.latitude)
         var urlComponent = URLComponents()

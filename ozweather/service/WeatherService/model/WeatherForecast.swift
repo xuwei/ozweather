@@ -70,13 +70,11 @@ struct Wind: Codable {
 }
 
 struct Country: Codable {
-    let type: Int
-    let countryCode: String
+    let countryCode: String?
     let sunrise: Double
     let sunset: Double
     
     private enum CodingKeys: String, CodingKey {
-        case type
         case countryCode = "country"
         case sunrise
         case sunset

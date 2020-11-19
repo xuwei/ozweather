@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreLocation
 @testable import ozweather
 
 class OpenWeatherAPIIntegrationTests: XCTestCase {
@@ -108,10 +109,63 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
     }
     
     func testSearchByCoord() {
+        let expectation = XCTestExpectation(description: "search by valid zip code")
+        let coord = CLLocationCoordinate2D(latitude: -84.39, longitude: 33.75)
+        let searchReq = WeatherSearchRequest(coord: coord, type: .gpsCoord)
+        service.searchBy(query: searchReq) { result in
+            switch(result) {
+            case .success(let forecast):
+                XCTAssertNotNil(forecast.weather)
+                XCTAssertTrue(forecast.name.isEmpty)
+                expectation.fulfill()
+                break
+            case .failure(_):
+                XCTFail()
+                expectation.fulfill()
+                break
+            }
+        }
         
+        wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
     }
     
-    func testSearchByInvalidCoord() {
+    func testSearchByInvalidCoordLatitude() {
+        let expectation = XCTestExpectation(description: "search by valid zip code")
+        let coord = CLLocationCoordinate2D(latitude: -1000.39, longitude: 10.0)
+        let searchReq = WeatherSearchRequest(coord: coord, type: .gpsCoord)
+        service.searchBy(query: searchReq) { result in
+            switch(result) {
+            case .success(_):
+                XCTFail()
+                expectation.fulfill()
+                break
+            case .failure(let err):
+                XCTAssertTrue(err == .invalidParam)
+                expectation.fulfill()
+                break
+            }
+        }
         
+        wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
+    }
+    
+    func testSearchByInvalidCoordLongitude() {
+        let expectation = XCTestExpectation(description: "search by valid zip code")
+        let coord = CLLocationCoordinate2D(latitude: -10.39, longitude: 1000.39)
+        let searchReq = WeatherSearchRequest(coord: coord, type: .gpsCoord)
+        service.searchBy(query: searchReq) { result in
+            switch(result) {
+            case .success(_):
+                XCTFail()
+                expectation.fulfill()
+                break
+            case .failure(let err):
+                XCTAssertTrue(err == .invalidParam)
+                expectation.fulfill()
+                break
+            }
+        }
+        
+        wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
     }
 }
