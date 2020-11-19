@@ -22,10 +22,13 @@ extension UIColor {
         scanner.scanLocation = 1
         scanner.scanHexInt32(&color)
         let mask = 0x000000FF
+        
+        // shift and mask to extract the value from hex format and parse it into Int
         let r = Int(color >> 16) & mask
         let g = Int(color >> 8) & mask
         let b = Int(color) & mask
         
+        // convert into RGB format
         let red = CGFloat(r) / 255.0
         let green = CGFloat(g) / 255.0
         let blue = CGFloat(b) / 255.0

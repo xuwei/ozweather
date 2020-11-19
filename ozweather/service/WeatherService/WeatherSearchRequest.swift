@@ -11,16 +11,16 @@ import CoreLocation
 enum WeatherSearchRequestType {
     case city
     case zipCode
-    case gps
+    case gpsCoord
 }
 
 struct WeatherSearchRequest {
     var city: String?
-    var zip: Int?
+    var zip: String?
     var coord: CLLocationCoordinate2D?
     var type: WeatherSearchRequestType
     
-    init(city: String? = nil, zip: Int? = nil, coord: CLLocationCoordinate2D? = nil, type: WeatherSearchRequestType) {
+    init(city: String? = nil, zip: String? = nil, coord: CLLocationCoordinate2D? = nil, type: WeatherSearchRequestType) {
         self.city = city
         self.zip = zip
         self.coord = coord

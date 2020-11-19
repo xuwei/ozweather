@@ -7,6 +7,8 @@
 
 import Foundation
 
+let HttpStatusSuccess = 200
+
 enum WeatherServiceError: Error {
     case invalidParam
     case GPSNotAvailable

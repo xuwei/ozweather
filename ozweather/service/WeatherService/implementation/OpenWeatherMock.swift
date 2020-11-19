@@ -12,11 +12,11 @@ class OpenWeatherMock: WeatherServiceProtocol {
     
     static let shared = OpenWeatherMock()
     let mockLocation = WeatherLocationUtil().mockWeatherLocation()
-    let validZipCode = 30303
+    let validZipCode = "30303"
     
     private init() { }
     
-    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherLocation, WeatherServiceError>) -> Void) {
+    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>) -> Void) {
         switch query.type {
         case .city:
             if mockLocation.name == query.city {
@@ -32,7 +32,7 @@ class OpenWeatherMock: WeatherServiceProtocol {
                 completionHandler(.failure(WeatherServiceError.invalidParam))
             }
             return
-        case .gps:
+        case .gpsCoord:
             completionHandler(.success((mockLocation)))
             return
         }

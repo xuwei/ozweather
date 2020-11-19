@@ -18,8 +18,8 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
         let searchReq = WeatherSearchRequest(city: cityName, type: .city)
         service.searchBy(query: searchReq) { result in
             switch(result) {
-            case .success(let location):
-                let weather: WeatherLocation = location
+            case .success(let forecast):
+                let weather: WeatherForecast = forecast
                 XCTAssertTrue(weather.name == cityName)
                 XCTAssertTrue(weather.timezone == -18000)
                 XCTAssertNotNil(weather.coord)
@@ -46,7 +46,7 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
         service.searchBy(query: searchReq) { result in
             switch(result) {
             case .success(_):
-//                XCTFail()
+                XCTFail()
                 expectation.fulfill()
                 break
             case .failure(let error):
@@ -62,12 +62,12 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
     func testSearchByPostcode() {
         let expectation = XCTestExpectation(description: "search by valid zip code")
         let cityName = "Atlanta"
-        let zipCode = 30303
+        let zipCode = "30303"
         let searchReq = WeatherSearchRequest(zip: zipCode, type: .zipCode)
         service.searchBy(query: searchReq) { result in
             switch(result) {
             case .success(let location):
-                let weather: WeatherLocation = location
+                let weather: WeatherForecast = location
                 XCTAssertTrue(weather.name == cityName)
                 XCTAssertTrue(weather.timezone == -18000)
                 XCTAssertNotNil(weather.coord)
@@ -88,8 +88,30 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
     }
 
     func testSearchByInvalidPostcode() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssertTrue(false)
+        let expectation = XCTestExpectation(description: "search by valid zip code")
+        let zipCode = "999999999"
+        let searchReq = WeatherSearchRequest(zip: zipCode, type: .zipCode)
+        service.searchBy(query: searchReq) { result in
+            switch(result) {
+            case .success(_):
+                XCTFail()
+                expectation.fulfill()
+                break
+            case .failure(let err):
+                XCTAssertTrue(err == .genericError)
+                expectation.fulfill()
+                break
+            }
+        }
+        
+        wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
+    }
+    
+    func testSearchByCoord() {
+        
+    }
+    
+    func testSearchByInvalidCoord() {
+        
     }
 }

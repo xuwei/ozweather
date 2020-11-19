@@ -10,5 +10,5 @@ import CoreLocation
 
 protocol WeatherServiceProtocol {
     
-    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherLocation, WeatherServiceError>)-> Void)
+    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)-> Void)
 }
