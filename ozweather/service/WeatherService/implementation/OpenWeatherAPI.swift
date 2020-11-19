@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 class OpenWeatherAPI: WeatherServiceProtocol {
 
@@ -16,16 +17,10 @@ class OpenWeatherAPI: WeatherServiceProtocol {
 //    ?appid=d4ceceb6cea308f9458e02a7ddb693cf&q=sydney"
     
     private init() {
-        
     }
     
-    func searchBy(query: String, completionHandler: @escaping (Result<WeatherLocation, Error>)-> Void) {
+    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherLocation, WeatherServiceError>)-> Void) {
         let location = WeatherLocationUtil().mockWeatherLocation()
         completionHandler(.success(location))
-    }
-
-    func updateRecent(locations: [WeatherLocation], completionHandler: @escaping (Bool) -> Void) {
-        completionHandler(true)
-    }
-    
+    }  
 }

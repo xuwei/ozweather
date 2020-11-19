@@ -18,7 +18,7 @@ class WeatherLocationUtil {
     }
     
     private func atlanta()-> WeatherLocation {
-        let coord = Coord(lon: -84.39, lat: 33.75)
+        let coord = Coord(longitude: -84.39, latitude: 33.75)
         let weather = Weather(id: 1, main: "Clear", description: "clear sky", icon: "01d")
         let temperature = Temperature(temp: 289.81, feelsLike: 285.66, tempMin: 288.15, tempMax: 291.15, humidity: 17, pressure: 1031)
         let wind = Wind(speed: 1.73, deg: 88)
@@ -30,7 +30,7 @@ class WeatherLocationUtil {
     }
     
     private func sydney()->WeatherLocation {
-        let coord = Coord(lon: 151.21, lat: -33.87)
+        let coord = Coord(longitude: 151.21, latitude: -33.87)
         let weather = Weather(id: 2, main: "Rain", description: "light rain", icon: "10d")
         let temperature = Temperature(temp: 294.68, feelsLike: 293.92, tempMin: 293.71, tempMax: 296.15, humidity: 64, pressure: 1023)
         let wind = Wind(speed: 3.1, deg: 40)

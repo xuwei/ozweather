@@ -6,18 +6,35 @@
 //
 
 import Foundation
+import CoreLocation
 
 class OpenWeatherMock: WeatherServiceProtocol {
     
     static let shared = OpenWeatherMock()
+    let mockLocation = WeatherLocationUtil().mockWeatherLocation()
+    let validZipCode = 30303
+    
     private init() { }
     
-    func searchBy(query: String, completionHandler: @escaping (Result<WeatherLocation, Error>) -> Void) {
-        let location = WeatherLocationUtil().mockWeatherLocation()
-        completionHandler(.success(location))
-    }
-    
-    func updateRecent(locations: [WeatherLocation], completionHandler: @escaping (Bool) -> Void) {
-        completionHandler(true)
+    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherLocation, WeatherServiceError>) -> Void) {
+        switch query.type {
+        case .city:
+            if mockLocation.name == query.city {
+                completionHandler(.success(mockLocation))
+            } else {
+                completionHandler(.failure(WeatherServiceError.invalidParam))
+            }
+            return
+        case .zipCode:
+            if validZipCode == query.zip {
+                completionHandler(.success(mockLocation))
+            } else {
+                completionHandler(.failure(WeatherServiceError.invalidParam))
+            }
+            return
+        case .gps:
+            completionHandler(.success((mockLocation)))
+            return
+        }
     }
 }

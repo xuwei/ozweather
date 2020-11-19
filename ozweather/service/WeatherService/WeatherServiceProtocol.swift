@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol WeatherServiceProtocol {
     
-    func searchBy(query: String, completionHandler: @escaping (Result<WeatherLocation, Error>)-> Void)
-    func updateRecent(locations: [WeatherLocation], completionHandler: @escaping (Bool) -> Void)
+    func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherLocation, WeatherServiceError>)-> Void)
 }
