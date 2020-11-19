@@ -30,7 +30,7 @@
 		9692E65D25664A62002C2D65 /* UIColor_HexToColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9692E65C25664A62002C2D65 /* UIColor_HexToColor.swift */; };
 		9692E66325669FF6002C2D65 /* UIColorHexToColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9692E66225669FF6002C2D65 /* UIColorHexToColorTests.swift */; };
 		9692E6792566ABB8002C2D65 /* OpenWeatherMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9692E6782566ABB8002C2D65 /* OpenWeatherMockTests.swift */; };
-		96E64A3F25672C15006BBEE8 /* JsonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64A3E25672C15006BBEE8 /* JsonUtil.swift */; };
+		96E64A532567342F006BBEE8 /* Data_PrintAsDictDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64A522567342F006BBEE8 /* Data_PrintAsDictDescription.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +73,7 @@
 		9692E65C25664A62002C2D65 /* UIColor_HexToColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_HexToColor.swift; sourceTree = "<group>"; };
 		9692E66225669FF6002C2D65 /* UIColorHexToColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorHexToColorTests.swift; sourceTree = "<group>"; };
 		9692E6782566ABB8002C2D65 /* OpenWeatherMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherMockTests.swift; sourceTree = "<group>"; };
-		96E64A3E25672C15006BBEE8 /* JsonUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonUtil.swift; sourceTree = "<group>"; };
+		96E64A522567342F006BBEE8 /* Data_PrintAsDictDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data_PrintAsDictDescription.swift; sourceTree = "<group>"; };
 		B3BBA3A70E24E5D90FFC8A66 /* Pods_ozweatherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ozweatherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD54FA5605111C79B0C74416 /* Pods_ozweatherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ozweatherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E71B9386D6ADC9EE39E564E7 /* Pods-ozweatherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ozweatherUITests.debug.xcconfig"; path = "Target Support Files/Pods-ozweatherUITests/Pods-ozweatherUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -263,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				967E52592565D27F00A28480 /* WeatherLocationUtil.swift */,
-				96E64A3E25672C15006BBEE8 /* JsonUtil.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -306,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				9692E65C25664A62002C2D65 /* UIColor_HexToColor.swift */,
+				96E64A522567342F006BBEE8 /* Data_PrintAsDictDescription.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -476,10 +476,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9692E65D25664A62002C2D65 /* UIColor_HexToColor.swift in Sources */,
+				96E64A532567342F006BBEE8 /* Data_PrintAsDictDescription.swift in Sources */,
 				967E51DE2565BEE800A28480 /* WeatherSearchVC.swift in Sources */,
 				9692E60D256644AF002C2D65 /* GumtreeTheme.swift in Sources */,
 				967E524F2565D0D400A28480 /* OpenWeatherMock.swift in Sources */,
-				96E64A3F25672C15006BBEE8 /* JsonUtil.swift in Sources */,
 				967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */,
 				966002AA2565DA11000877CE /* WeatherDetailsVC.swift in Sources */,
 				9692E6032566448D002C2D65 /* ThemeProtocol.swift in Sources */,

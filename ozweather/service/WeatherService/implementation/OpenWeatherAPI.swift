@@ -48,9 +48,9 @@ class OpenWeatherAPI: WeatherServiceProtocol {
         guard let url = urlComponent?.url else { completionHandler(.failure(.invalidParam)); return }
         dataTask = session.dataTask(with: url) { [weak self] data, response, err in
             guard let self = self else { completionHandler(.failure(.genericError)); return }
+            guard let data = data else { completionHandler(.failure(.genericError)); return }
             defer { self.dataTask = nil }
-            
-            JsonUtil.shared.printAsJson(data: data)
+            data.printAsDictDescription()
             self.handleWeatherLocationResponse(data: data, err: err, response: response) { result in
                 completionHandler(result)
             }

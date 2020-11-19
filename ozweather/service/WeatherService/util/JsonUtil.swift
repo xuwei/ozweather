@@ -7,10 +7,11 @@
 
 import Foundation
 
-class JsonUtil {
-    static let shared = JsonUtil()
+class DataUtil {
+    static let shared = DataUtil()
     private init() { }
     
+    // utility method to convert data to dictionary, then print
     func printAsJson(data: Data?) {
         guard let data = data else { print("printAsJson - data is nil"); return }
         do {
