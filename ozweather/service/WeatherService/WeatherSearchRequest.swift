@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-enum WeatherSearchRequestType {
+enum WeatherSearchRequestType: Int, Codable {
     case city
     case zipCode
     case gpsCoord
