@@ -12,7 +12,11 @@ class BasicLogger: LoggerProtocol {
     static let shared = BasicLogger()
     private init() { }
     
-    func printError(_ err: Error) {
+    func logError(_ err: Error) {
         print(err.localizedDescription)
+    }
+    
+    func log(_ str: String) {
+        print(str)
     }
 }

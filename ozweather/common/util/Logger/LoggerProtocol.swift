@@ -8,5 +8,6 @@
 import Foundation
 
 protocol LoggerProtocol {
-    func printError(_ err: Error)
+    func logError(_ err: Error)
+    func log(_ str: String)
 }
