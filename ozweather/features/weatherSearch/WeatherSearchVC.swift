@@ -38,7 +38,7 @@ class WeatherSearchVC: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
-        tableView.dataSource = self 
+        tableView.dataSource = self
     }
     
     private func registerCells() {
@@ -75,14 +75,19 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        BasicLogger.shared.log(self.viewModel.sections[section].title)
         return self.viewModel.sections[section].title
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellModel = viewModel.sections[indexPath.section].cellVMList[indexPath.row]
-        guard let cell: TableViewCellProtocol = tableView.dequeueReusableCell(withIdentifier: cellModel.identifier, for: indexPath) as? TableViewCellProtocol else { return UITableViewCell() }
+        guard let cell: TableViewCellProtocol = tableView.dequeueReusableCell(withIdentifier: cellModel.identifier, for: indexPath) as? TableViewCellProtocol else {
+            return UITableViewCell()
+        }
         cell.setupWith(cellModel)
-        guard let tableViewCell = cell as? UITableViewCell else { return UITableViewCell() }
+        guard let tableViewCell = cell as? UITableViewCell else {
+            return UITableViewCell()
+        }
         return tableViewCell
     }
     

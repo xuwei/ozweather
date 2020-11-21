@@ -21,8 +21,8 @@ class UseGPSLocationCell: UITableViewCell {
         super.awakeFromNib()
         let theme: ThemeProtocol = AppData.shared.theme
         containerView.backgroundColor = theme.primaryColor
-        title.textColor = theme.secondaryColor
-        caption.textColor = theme.secondaryColor
+        title.textColor = theme.primaryTextColor
+        caption.textColor = theme.primaryTextColor
     }
     
     // we always clear the content on cell before re-use

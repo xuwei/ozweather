@@ -14,6 +14,7 @@ enum ThemeType {
 
 protocol ThemeProtocol {
     var themeType: ThemeType { get }
+    var primaryTextColor: UIColor { get }
     var primaryColor: UIColor { get }
     var secondaryColor: UIColor { get }
     var backgroundColor: UIColor { get }

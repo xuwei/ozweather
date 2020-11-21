@@ -18,15 +18,24 @@ class WeatherLocationCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupUI()
+    }
+    
+    private func setupUI() {
         let theme: ThemeProtocol = AppData.shared.theme
         containerView.backgroundColor = theme.secondaryColor
-        title.textColor = theme.primaryColor
+        title.textColor = theme.primaryTextColor
     }
     
     // we always clear the content on cell before re-use
     override func prepareForReuse() {
         // reset title
         title.text = ""
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        setupUI()
     }
 }
 
