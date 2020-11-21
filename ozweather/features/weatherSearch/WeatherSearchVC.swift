@@ -39,6 +39,7 @@ class WeatherSearchVC: UIViewController {
         tableView.separatorStyle = .singleLine
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
     }
     
     private func registerCells() {

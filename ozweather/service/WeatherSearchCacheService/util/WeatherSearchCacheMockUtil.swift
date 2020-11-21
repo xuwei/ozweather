@@ -18,7 +18,7 @@ class WeatherSearchCacheMockUtil {
                   (22.302711, 114.177216)]
     
     func randomSearchCacheItem() -> WeatherSearchCacheItem {
-        let type = WeatherSearchRequestType.AllCases().randomElement()
+        let type = WeatherSearchRequestType.allCases.randomElement()
         switch type {
         case .city:
             return generateSearchByCityItem()
@@ -36,7 +36,7 @@ class WeatherSearchCacheMockUtil {
     }
     
     private func generateSearchByZipcodeItem() -> WeatherSearchCacheItem {
-        return WeatherSearchCacheItem(city: zipCodes.randomElement(), type: .zipCode)
+        return WeatherSearchCacheItem(zipCode: zipCodes.randomElement(), type: .zipCode)
     }
     
     private func generateSearchByCoordItem() -> WeatherSearchCacheItem {
