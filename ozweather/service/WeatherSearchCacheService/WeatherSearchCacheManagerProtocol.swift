@@ -22,13 +22,18 @@ extension WeatherSearchCacheManagerProtocol {
         case .city:
             guard let city = weatherSearchReq.city else { return nil }
             cacheItem.city = city
+            break
         case .zipCode:
             guard let zip = weatherSearchReq.zip else { return nil }
             cacheItem.zipCode = zip
+            break
         case .gpsCoord:
             guard let coord = weatherSearchReq.coord else { return nil }
             cacheItem.latitude = coord.latitude
             cacheItem.longitude = coord.longitude
+            break
+        case .unknown:
+            return nil
         }
         return cacheItem
     }

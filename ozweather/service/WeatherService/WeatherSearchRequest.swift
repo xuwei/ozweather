@@ -12,6 +12,7 @@ enum WeatherSearchRequestType: Int, Codable, CaseIterable {
     case city
     case zipCode
     case gpsCoord
+    case unknown
 }
 
 struct WeatherSearchRequest {

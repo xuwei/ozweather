@@ -39,6 +39,9 @@ class OpenWeatherAPI: WeatherServiceProtocol {
                 completionHandler(result)
             }
             break
+        case .unknown:
+            completionHandler(.failure(.invalidParam))
+            break
         }
     }
     

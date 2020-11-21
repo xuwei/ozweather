@@ -12,30 +12,32 @@ struct WeatherSearchSection {
     let cellVMList: [TableViewCellVMProtocol]
 }
 
-protocol WeatherSearchVMDelegate {
-    func updateTable()
-}
-
 class WeatherSearchVM {
     
-    let searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCacheMock.shared
+    // for dependency injection
+    convenience init(searchCache: WeatherSearchCacheManagerProtocol, weatheService: WeatherServiceProtocol) {
+        self.init()
+        self.searchCache = searchCache
+        self.weatheService = weatheService
+    }
+    
+    private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
+    private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     let title = ScreenName.search.rawValue
     
-    let defaultUseGPSCellTitle = "Use my current location"
-    let defaultUseGPSCellCaption = "requires permission to detect location"
-    let listName = "WeatherSearch"
+    private let defaultUseGPSCellTitle = "Use my current location"
+    private let defaultUseGPSCellCaption = "requires permission to detect location"
+    private let listName = "WeatherSearch"
     var sections: [WeatherSearchSection] = []
-    var delegate: WeatherSearchVMDelegate?
     
-    func loadRecent() {
-        guard let delegate = self.delegate else { return }
+    func loadRecent(_ completionHandler: (Result<Bool, Error>)->Void) {
         var sections: [WeatherSearchSection] = []
         let gpsSection = loadUseGPSSection()
         let recentSection = loadRecentSection()
         sections.append(gpsSection)
         sections.append(recentSection)
         self.sections = sections
-        delegate.updateTable()
+        completionHandler(.success(true))
     }
     
     private func loadUseGPSSection()->WeatherSearchSection {
@@ -59,7 +61,25 @@ class WeatherSearchVM {
         return section
     }
     
-    func queueSearch(_ query: String) {
+    func queueSearch(_ query: String, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
+        let searchReqUtil = WeatherSearchRequestUtil()
+        guard searchReqUtil.validCharacters(query) else { completionHandler(.failure(.invalidParam)); return }
+        let searchReqType = searchReqUtil.typeOfRequest(query)
+        var req = WeatherSearchRequest(city: "", type: .city)
+        switch searchReqType {
+        case .city:
+            req = WeatherSearchRequest(city: query, type: .city)
+            break
+        case .zipCode:
+            req = WeatherSearchRequest(zip: query, type: .zipCode)
+            break
+        default:
+            break
+        }
         
+        weatheService.searchBy(query: req) { result in
+            completionHandler(result)
+        }
     }
 }
+

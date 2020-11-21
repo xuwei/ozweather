@@ -35,6 +35,9 @@ class OpenWeatherMock: WeatherServiceProtocol {
         case .gpsCoord:
             completionHandler(.success((mockLocation)))
             return
+        case .unknown:
+            completionHandler(.failure(.invalidParamFormat))
+            return
         }
     }
 }

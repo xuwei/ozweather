@@ -28,6 +28,8 @@ struct WeatherSearchCacheItem: Codable {
             self.longitude = longitude
             self.latitude = latitude
             break
+        default:
+            break
         }
     }
     
@@ -41,6 +43,8 @@ struct WeatherSearchCacheItem: Codable {
             let latitude = self.latitude ?? 0.0
             let longitude = self.longitude ?? 0.0
             return String("lat:\(latitude),lon:\(longitude)")
+        default:
+            return "unknown"
         }
     }
 }

@@ -11,6 +11,7 @@ let HttpStatusSuccess = 200
 
 enum WeatherServiceError: Error {
     case invalidParam
+    case invalidParamFormat
     case GPSNotAvailable
     case genericError
 }
@@ -20,6 +21,8 @@ extension WeatherServiceError: LocalizedError {
         switch self {
         case .invalidParam:
             return "Invalid search parameters"
+        case .invalidParamFormat:
+            return "Invalid search parameter format. Eg: 'Atlanta' or '30301'"
         case .GPSNotAvailable:
             return "GPS not available"
         case .genericError:

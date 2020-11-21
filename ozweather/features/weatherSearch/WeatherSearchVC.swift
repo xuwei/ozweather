@@ -13,11 +13,11 @@ class WeatherSearchVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
-    var viewModel = WeatherSearchVM()
+    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherMock.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.delegate = self
+        self.title = viewModel.title
         setupTableview()
         registerCells()
         enableTapToDismissKeyboard()
@@ -25,7 +25,9 @@ class WeatherSearchVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.loadRecent()
+        viewModel.loadRecent() { _ in
+            tableView.reloadData()
+        }
     }
     
     private func setupTableview() {
@@ -50,11 +52,13 @@ class WeatherSearchVC: UIViewController {
         let nib2 = UINib(nibName: UseGPSLocationCell.identifier, bundle: nil)
         self.tableView.register(nib2, forCellReuseIdentifier: UseGPSLocationCell.identifier)
     }
-}
-
-extension WeatherSearchVC: WeatherSearchVMDelegate {
-    func updateTable() {
-        tableView.reloadData()
+    
+    private func showLoading() {
+        self.loadingIndicator.startAnimating()
+    }
+    
+    private func endLoading() {
+        self.loadingIndicator.stopAnimating()
     }
 }
 
@@ -81,9 +85,27 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
         guard let tableViewCell = cell as? UITableViewCell else { return UITableViewCell() }
         return tableViewCell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellModel = viewModel.sections[indexPath.section].cellVMList[indexPath.row]
+        let cellModelType = type(of: cellModel)
+        if cellModelType == UseGPSLocationCellVM.self {
+            print("gps location selected")
+        } else if cellModelType == WeatherLocationVM.self {
+            print("weather location selected")
+        }
+        
+        // no action if neither
+    }
 }
 
 // MARK: UISearchBarDelegate
 extension WeatherSearchVC: UISearchBarDelegate {
-    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        guard let text = searchBar.text else { return }
+        self.viewModel.queueSearch(text) { result in
+            
+        }
+    }
 }
