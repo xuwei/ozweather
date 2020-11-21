@@ -35,6 +35,8 @@ class WeatherSearchVC: UIViewController {
         tableView.estimatedRowHeight = 1
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .singleLine
+        tableView.delegate = self
+        tableView.dataSource = self 
     }
     
     private func registerCells() {

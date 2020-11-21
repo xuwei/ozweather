@@ -25,15 +25,16 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="2gx-2q-zTD"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h3s-mw-xUp">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h3s-mw-xUp">
                                 <rect key="frame" x="0.0" y="144" width="414" height="718"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="ofq-Pe-FeF"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="v0j-zl-HFs"/>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Dua-cU-bSf"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="BWs-hp-hmH"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hC0-WG-yAb">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hC0-WG-yAb">
                                 <rect key="frame" x="182" y="199" width="50" height="50"/>
                                 <color key="tintColor" red="0.2135460376739502" green="1" blue="0.82070046663284302" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>

@@ -19,7 +19,7 @@ class WeatherLocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         let theme: ThemeProtocol = AppData.shared.theme
-        containerView.backgroundColor = theme.backgroundColor
+        containerView.backgroundColor = theme.secondaryColor
         title.textColor = theme.primaryColor
     }
     

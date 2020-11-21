@@ -34,6 +34,7 @@ class WeatherSearchVM {
         let recentSection = loadRecentSection()
         sections.append(gpsSection)
         sections.append(recentSection)
+        self.sections = sections
         delegate.updateTable()
     }
     
