@@ -8,14 +8,14 @@
 import UIKit
 
 class UseGPSLocationCell: UITableViewCell {
-    
+
     static let identifier: String = "UseGPSLocationCell"
     
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var caption: UILabel!
     @IBOutlet weak var containerView: UIView!
     
-    var viewModel = WeatherLocationVM(text: "", type: .gpsCoord)
+    var viewModel = UseGPSLocationCellVM(title: "", caption: "")
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,5 +23,21 @@ class UseGPSLocationCell: UITableViewCell {
         containerView.backgroundColor = theme.primaryColor
         title.textColor = theme.secondaryColor
         caption.textColor = theme.secondaryColor
+    }
+    
+    // we always clear the content on cell before re-use
+    override func prepareForReuse() {
+        // reset title
+        title.text = ""
+        caption.text = ""
+    }
+}
+
+extension UseGPSLocationCell: TableViewCellProtocol {
+    func setupWith(_ vm: TableViewCellVMProtocol) {
+        guard let viewModel = vm as? UseGPSLocationCellVM else { return }
+        self.title.text = viewModel.title
+        self.caption.text = viewModel.caption
+        self.viewModel = viewModel
     }
 }

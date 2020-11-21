@@ -19,10 +19,12 @@ protocol WeatherSearchVMDelegate {
 class WeatherSearchVM {
     
     let searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCacheMock.shared
-    
     let title = ScreenName.search.rawValue
+    
+    let defaultUseGPSCellTitle = "Use my current location"
+    let defaultUseGPSCellCaption = "requires permission to detect location"
     let listName = "WeatherSearch"
-    var section: [WeatherSearchSection] = []
+    var sections: [WeatherSearchSection] = []
     var delegate: WeatherSearchVMDelegate?
     
     func loadRecent() {
@@ -36,11 +38,13 @@ class WeatherSearchVM {
     }
     
     private func loadUseGPSSection()->WeatherSearchSection {
-        let gpsLocation = UseGPSLocationCellVM()
-        return WeatherSearchSection(title: "current location", cellVMList:  [gpsLocation])
+        let sectionTitle = "current location"
+        let gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaption)
+        return WeatherSearchSection(title: sectionTitle, cellVMList:  [gpsLocation])
     }
     
     private func loadRecentSection()->WeatherSearchSection {
+        let sectionTitle = "recent"
         var result: [TableViewCellVMProtocol] = []
         if let recents = searchCache.getQueue(listName: listName) {
             // newly added on top, so recents.reversed()
@@ -50,7 +54,7 @@ class WeatherSearchVM {
             }
         }
         
-        let section = WeatherSearchSection(title: "recent", cellVMList: result)
+        let section = WeatherSearchSection(title: sectionTitle, cellVMList: result)
         return section
     }
     

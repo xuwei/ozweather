@@ -21,23 +21,46 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="2gx-2q-zTD"/>
+                                </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h3s-mw-xUp">
                                 <rect key="frame" x="0.0" y="144" width="414" height="718"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="ofq-Pe-FeF"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="v0j-zl-HFs"/>
+                                </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hC0-WG-yAb">
+                                <rect key="frame" x="182" y="199" width="50" height="50"/>
+                                <color key="tintColor" red="0.2135460376739502" green="1" blue="0.82070046663284302" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="5yA-9U-7zn"/>
+                                    <constraint firstAttribute="height" constant="50" id="bNl-lz-7pF"/>
+                                </constraints>
+                                <color key="color" systemColor="linkColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="hC0-WG-yAb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="69u-3C-COP"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9iZ-ZA-d1h"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="top" secondItem="hoz-D1-cBV" secondAttribute="bottom" id="B1f-pK-GIy"/>
+                            <constraint firstItem="hC0-WG-yAb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" multiplier="0.5" id="E9Q-oZ-afK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="h3s-mw-xUp" secondAttribute="bottom" id="eFO-C9-dn4"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="top" secondItem="hoz-D1-cBV" secondAttribute="bottom" id="oPu-z5-Rd2"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="u65-Uk-DqM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="C20-Ct-JYo"/>
+                    <connections>
+                        <outlet property="loadingIndicator" destination="hC0-WG-yAb" id="QqT-PQ-0Gk"/>
+                        <outlet property="searchBar" destination="hoz-D1-cBV" id="dkG-bi-TVD"/>
+                        <outlet property="tableView" destination="h3s-mw-xUp" id="zQc-6g-Vs9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -78,6 +101,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
