@@ -30,4 +30,17 @@ struct WeatherSearchCacheItem: Codable {
             break
         }
     }
+    
+    func stringify()-> String {
+        switch self.type {
+        case .city:
+            return self.city ?? ""
+        case .zipCode:
+            return self.zipCode ?? ""
+        case .gpsCoord:
+            let latitude = self.latitude ?? 0.0
+            let longitude = self.longitude ?? 0.0
+            return String("lat:\(latitude),lon:\(longitude)")
+        }
+    }
 }

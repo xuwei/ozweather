@@ -6,7 +6,22 @@
 //
 
 import Foundation
+import UIKit
+
+enum ThemeType {
+    case gumtree
+}
+
+protocol ThemeProtocol {
+    var themeType: ThemeType { get }
+    var primaryColor: UIColor { get }
+    var secondaryColor: UIColor { get }
+    var backgroundColor: UIColor { get }
+}
 
 class AppData {
+    static let shared = AppData()
     let theme: ThemeProtocol = GumtreeTheme()
+    
+    private init() { }
 }

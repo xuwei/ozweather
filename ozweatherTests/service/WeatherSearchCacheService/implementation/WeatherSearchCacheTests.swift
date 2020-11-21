@@ -39,8 +39,4 @@ class WeatherSearchCacheTests: XCTestCase {
         items = cache.getQueue(listName: cacheQueueName) ?? []
         XCTAssertTrue(items.count == 0)
     }
-    
-    func testMultipleQueue() {
-        
-    }
 }

@@ -11,7 +11,7 @@ import CoreLocation
 class OpenWeatherMock: WeatherServiceProtocol {
     
     static let shared = OpenWeatherMock()
-    let mockLocation = WeatherLocationUtil().mockWeatherLocation()
+    let mockLocation = OpenWeatherMockUtil().mockWeatherLocation()
     let validZipCode = "30303"
     
     private init() { }
