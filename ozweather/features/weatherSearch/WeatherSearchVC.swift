@@ -111,7 +111,7 @@ extension WeatherSearchVC: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         guard let text = searchBar.text else { return }
         self.viewModel.queueSearch(text) { result in
-            
+            print(result)
         }
     }
 }

@@ -24,6 +24,9 @@
 		96606D9B2569202E006B6CF5 /* UIViewController+TapToDismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606D9A2569202E006B6CF5 /* UIViewController+TapToDismissKeyboard.swift */; };
 		96606D9F25692325006B6CF5 /* TableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606D9E25692325006B6CF5 /* TableViewCellProtocol.swift */; };
 		96606DA525693ADE006B6CF5 /* WeatherSearchRequestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606DA425693ADE006B6CF5 /* WeatherSearchRequestUtil.swift */; };
+		96606DBD25694D6A006B6CF5 /* AppNavProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606DBC25694D6A006B6CF5 /* AppNavProtocol.swift */; };
+		96606DC225694D8C006B6CF5 /* AppNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606DC125694D8C006B6CF5 /* AppNav.swift */; };
+		96606DCA25694EF3006B6CF5 /* AppNavConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96606DC925694EF3006B6CF5 /* AppNavConstants.swift */; };
 		967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51D92565BEE800A28480 /* AppDelegate.swift */; };
 		967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DB2565BEE800A28480 /* SceneDelegate.swift */; };
 		967E51DE2565BEE800A28480 /* WeatherSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DD2565BEE800A28480 /* WeatherSearchVC.swift */; };
@@ -88,6 +91,9 @@
 		96606D9A2569202E006B6CF5 /* UIViewController+TapToDismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TapToDismissKeyboard.swift"; sourceTree = "<group>"; };
 		96606D9E25692325006B6CF5 /* TableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellProtocol.swift; sourceTree = "<group>"; };
 		96606DA425693ADE006B6CF5 /* WeatherSearchRequestUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchRequestUtil.swift; sourceTree = "<group>"; };
+		96606DBC25694D6A006B6CF5 /* AppNavProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavProtocol.swift; sourceTree = "<group>"; };
+		96606DC125694D8C006B6CF5 /* AppNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNav.swift; sourceTree = "<group>"; };
+		96606DC925694EF3006B6CF5 /* AppNavConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavConstants.swift; sourceTree = "<group>"; };
 		967E51D62565BEE800A28480 /* ozweather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ozweather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		967E51D92565BEE800A28480 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		967E51DB2565BEE800A28480 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -209,6 +215,24 @@
 				96606D852568CBE3006B6CF5 /* WeatherSearchCacheMockUtil.swift */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		96606DBB25694D44006B6CF5 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				96606DC025694D7C006B6CF5 /* implementation */,
+				96606DBC25694D6A006B6CF5 /* AppNavProtocol.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		96606DC025694D7C006B6CF5 /* implementation */ = {
+			isa = PBXGroup;
+			children = (
+				96606DC925694EF3006B6CF5 /* AppNavConstants.swift */,
+				96606DC125694D8C006B6CF5 /* AppNav.swift */,
+			);
+			path = implementation;
 			sourceTree = "<group>";
 		};
 		967E51CD2565BEE800A28480 = {
@@ -499,6 +523,7 @@
 		96E64AB92567D03C006BBEE8 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				96606DBB25694D44006B6CF5 /* Navigation */,
 				96E64AC02567D07B006BBEE8 /* Logger */,
 			);
 			path = util;
@@ -680,6 +705,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96606DC225694D8C006B6CF5 /* AppNav.swift in Sources */,
 				96E64AA825679E23006BBEE8 /* WeatherSearchCacheItem.swift in Sources */,
 				96E64A88256756B5006BBEE8 /* WeatherSearchCacheManagerProtocol.swift in Sources */,
 				96606D622568BF2E006B6CF5 /* WeatherLocationVM.swift in Sources */,
@@ -695,9 +721,11 @@
 				9692E60D256644AF002C2D65 /* GumtreeTheme.swift in Sources */,
 				96606D9F25692325006B6CF5 /* TableViewCellProtocol.swift in Sources */,
 				967E524F2565D0D400A28480 /* OpenWeatherMock.swift in Sources */,
+				96606DBD25694D6A006B6CF5 /* AppNavProtocol.swift in Sources */,
 				967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */,
 				966002AA2565DA11000877CE /* WeatherDetailsVC.swift in Sources */,
 				967E52232565C3A600A28480 /* OpenWeatherAPI.swift in Sources */,
+				96606DCA25694EF3006B6CF5 /* AppNavConstants.swift in Sources */,
 				96E64AB62567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift in Sources */,
 				9692E61525664779002C2D65 /* WeatherSearchRequest.swift in Sources */,
 				967E522B2565C75300A28480 /* WeatherServiceProtocol.swift in Sources */,
