@@ -13,11 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Cocoapods
-      uses: maxim-lobanov/setup-cocoapods@v1
-      with:
-        version: 1.7.4
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+    - name: CocoaPods Action
+      uses: ty0x2333/cocoapods-action@0.2.0
