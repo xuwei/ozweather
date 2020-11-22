@@ -52,7 +52,7 @@ class WeatherSearchVM {
         if let recents = searchCache.getQueue(listName: listName) {
             // newly added on top, so recents.reversed()
             for cacheItem in recents.reversed() {
-                let vm: WeatherLocationVM = WeatherLocationVM(text: cacheItem.stringify(), type: cacheItem.type)
+                let vm: WeatherLocationCellVM = WeatherLocationCellVM(text: cacheItem.stringify(), type: cacheItem.type)
                 result.append(vm)
             }
         }
@@ -61,22 +61,7 @@ class WeatherSearchVM {
         return section
     }
     
-    func queueSearch(_ query: String, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
-        let searchReqUtil = WeatherSearchRequestUtil()
-        guard searchReqUtil.validCharacters(query) else { completionHandler(.failure(.invalidParam)); return }
-        let searchReqType = searchReqUtil.typeOfRequest(query)
-        var req = WeatherSearchRequest(city: "", type: .city)
-        switch searchReqType {
-        case .city:
-            req = WeatherSearchRequest(city: query, type: .city)
-            break
-        case .zipCode:
-            req = WeatherSearchRequest(zip: query, type: .zipCode)
-            break
-        default:
-            break
-        }
-        
+    func queueSearch(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
         weatheService.searchBy(query: req) { result in
             completionHandler(result)
         }

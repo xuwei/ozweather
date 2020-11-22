@@ -14,7 +14,7 @@ class WeatherLocationCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var containerView: UIView!
     
-    var viewModel = WeatherLocationVM(text: "", type: .city)
+    var viewModel = WeatherLocationCellVM(text: "", type: .city)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,7 +42,7 @@ class WeatherLocationCell: UITableViewCell {
 extension WeatherLocationCell: TableViewCellProtocol {
     
     func setupWith(_ vm: TableViewCellVMProtocol) {
-        guard let viewModel = vm as? WeatherLocationVM else { return }
+        guard let viewModel = vm as? WeatherLocationCellVM else { return }
         title.text = viewModel.text
         self.viewModel = viewModel
     }

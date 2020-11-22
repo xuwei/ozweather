@@ -9,7 +9,7 @@ import Foundation
 
 class OpenWeatherMockUtil {
     
-    func mockWeatherLocation()-> WeatherForecast {
+    func mockWeatherForecast()-> WeatherForecast {
         return atlanta()
     }
     

@@ -13,7 +13,7 @@ class WeatherSearchVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
-    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherMock.shared)
+    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherAPIMock.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +40,8 @@ class WeatherSearchVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = AppData.shared.theme.backgroundColor
+        
     }
     
     private func registerCells() {
@@ -97,11 +99,12 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
         let cellModelType = type(of: cellModel)
         if cellModelType == UseGPSLocationCellVM.self {
             print("gps location selected")
-        } else if cellModelType == WeatherLocationVM.self {
+        } else if cellModelType == WeatherLocationCellVM.self {
+            guard let cellVM = cellModel as? WeatherLocationCellVM else { return }
             print("weather location selected")
+            let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: cellVM.text, type: cellVM.type))
+            pushToWeatherDetailsWith(vm: weatherDetailsVM)
         }
-        
-        // no action if neither
     }
 }
 
@@ -110,8 +113,38 @@ extension WeatherSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let text = searchBar.text else { return }
-        self.viewModel.queueSearch(text) { result in
-            print(result)
+        var req: WeatherSearchRequest?
+        // validate text input and transform to request object
+        let searchReqUtil = WeatherSearchRequestUtil()
+        let reqType = searchReqUtil.typeOfRequest(text)
+        switch reqType {
+        case .city:
+            req = WeatherSearchRequest(city: text, type: .city)
+            break
+        case .zipCode:
+            req = WeatherSearchRequest(zip: text, type: .zipCode)
+            break
+        default:
+            alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil)
+            return
+        }
+        guard let request = req else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        self.showLoading()
+        self.viewModel.queueSearch(request) { [weak self] result in
+            guard let self = self else { return }
+            self.endLoading()
+            
+            switch result {
+            case .success(let forecast):
+                // cache search result
+                // navigate to weather details
+                let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
+                break
+            case .failure(let err):
+                self.alert(error: err, completionHandler: nil)
+                break
+            }
         }
     }
 }

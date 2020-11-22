@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherLocationVM: TableViewCellVMProtocol {
+struct WeatherLocationCellVM: TableViewCellVMProtocol {
     let identifier = WeatherLocationCell.identifier
     let text: String
     let type: WeatherSearchRequestType

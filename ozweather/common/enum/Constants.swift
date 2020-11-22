@@ -7,6 +7,15 @@
 
 import Foundation
 
+enum StoryboardName: String {
+    case main = "Main"
+}
+
+enum StoryboardId: String {
+    case weatherSearch = "WeatherSearchVC"
+    case weatherDetails = "WeatherDetailsVC"
+}
+
 enum ScreenName: String {
     case search = "Search"
     case forecast = "Forecast" 
