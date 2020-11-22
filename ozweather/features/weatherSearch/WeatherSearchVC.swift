@@ -41,7 +41,7 @@ class WeatherSearchVC: UIViewController {
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = AppData.shared.theme.backgroundColor
-        
+        tableView.allowsSelection = false
     }
     
     private func registerCells() {
@@ -88,23 +88,35 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.setupWith(cellModel)
-        guard let tableViewCell = cell as? UITableViewCell else {
-            return UITableViewCell()
+        if let locationCell = cell as? WeatherLocationCell {
+            locationCell.delegate = self
+        } else if let gpsLocationCell = cell as? UseGPSLocationCell {
+            gpsLocationCell.delegate = self
         }
-        return tableViewCell
+    
+        return cell as? UITableViewCell ?? UITableViewCell()
+    }
+}
+
+// MARK: WeatherLocationCellDelegate
+extension WeatherSearchVC: WeatherLocationCellDelegate {
+    
+    func delete(vm: WeatherLocationCellVM) {
+        // todo
+        print("delete recent from cache")
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellModel = viewModel.sections[indexPath.section].cellVMList[indexPath.row]
-        let cellModelType = type(of: cellModel)
-        if cellModelType == UseGPSLocationCellVM.self {
-            print("gps location selected")
-        } else if cellModelType == WeatherLocationCellVM.self {
-            guard let cellVM = cellModel as? WeatherLocationCellVM else { return }
-            print("weather location selected")
-            let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: cellVM.text, type: cellVM.type))
-            pushToWeatherDetailsWith(vm: weatherDetailsVM)
-        }
+    func weatherForecast(vm: WeatherLocationCellVM) {
+        print("weather location selected")
+        let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: vm.text, type: vm.type))
+        pushToWeatherDetailsWith(vm: weatherDetailsVM)
+    }
+}
+
+// MARK: UseGPSLocationCellDelegate
+extension WeatherSearchVC: UseGPSLocationCellDelegate {
+    func useCurrentLocation(vm: UseGPSLocationCellVM) {
+        WLocationManager.shared.start()
     }
 }
 

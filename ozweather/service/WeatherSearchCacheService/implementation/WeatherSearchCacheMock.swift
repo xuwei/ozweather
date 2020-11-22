@@ -27,7 +27,7 @@ class WeatherSearchCacheMock: WeatherSearchCacheManagerProtocol {
     private func randomQueue()->[WeatherSearchCacheItem] {
         var queue: [WeatherSearchCacheItem] = []
         let mockUtil = WeatherSearchCacheMockUtil()
-        for _ in 0..<10 {
+        for _ in 0..<100 {
             queue.append(mockUtil.randomSearchCacheItem())
         }
         return queue
