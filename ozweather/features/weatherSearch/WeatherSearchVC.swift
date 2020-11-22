@@ -24,14 +24,22 @@ class WeatherSearchVC: UIViewController {
         enableTapToDismissKeyboard()
     }
     
+    // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        addEventObservers()
         viewModel.loadRecent() { _ in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    // important to de-register events when viewcontroller disappears
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationEventObservers()
     }
     
     private func setupTableview() {
@@ -50,6 +58,10 @@ class WeatherSearchVC: UIViewController {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.addSubview(refreshControl)
+    }
+    
+    private func addEventObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(notification:)), name: NSNotification.Name(NotificationEvent.locationUpdate.rawValue), object: nil)
     }
     
     private func registerCells() {
@@ -80,6 +92,10 @@ class WeatherSearchVC: UIViewController {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    @objc private func locationUpdate(notification: NSNotification) {
+        print("weather search vc - location update")
     }
 }
 

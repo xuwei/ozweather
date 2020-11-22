@@ -11,7 +11,7 @@ import CoreLocation
 class WLocationService: NSObject, WLocationServiceProtocol {
     static let shared = WLocationService()
     let locationManager = CLLocationManager()
-    // metres
+    // update around every 500 metres, since it's weather forecast, no need to update too frequently
     let distanceFilter = 500.0
     var currentLocation: CLLocation?
 
