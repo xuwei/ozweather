@@ -19,7 +19,7 @@ class WeatherSearchVM {
     private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
     private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     private var locationService: WLocationServiceProtocol = WLocationService.shared
-    private var location: CLLocation?
+    
     
     // for dependency injection
     convenience init(searchCache: WeatherSearchCacheManagerProtocol, weatheService: WeatherServiceProtocol, locationService: WLocationServiceProtocol) {
@@ -34,6 +34,7 @@ class WeatherSearchVM {
     private let defaultUseGPSCellTitle = "Use my current location"
     private let defaultUseGPSCellCaption = "requires permission to detect location"
     var sections: [WeatherSearchSection] = []
+    var location: CLLocationCoordinate2D?
     
     private func updateSectionList() {
         var sections: [WeatherSearchSection] = []
@@ -108,7 +109,7 @@ extension WeatherSearchVM {
     
     func updateLocation(_ location: CLLocation, completionHandler: @escaping (Result<Bool, Error>)->Void) {
         // update and refresh table
-        self.location = location
+        self.location = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         updateSectionList()
         completionHandler(.success(true))
     }
@@ -121,6 +122,10 @@ extension WeatherSearchVM {
     
     func stopLocationService() {
         self.locationService.stop()
+    }
+    
+    func isLocationServiceActive()->Bool {
+        return self.locationService.isActive()
     }
 }
 

@@ -157,7 +157,7 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func weatherForecast(vm: WeatherLocationCellVM) {
         print("weather location selected")
-        let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: vm.text, type: vm.type))
+        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: vm.text, type: vm.type))
         pushToWeatherDetailsWith(vm: weatherDetailsVM)
     }
 }
@@ -166,7 +166,13 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
         print("use current location")
-        self.viewModel.startLocationService()
+        if self.viewModel.isLocationServiceActive(), let location = self.viewModel.location {
+            let request = WeatherSearchRequest(coord: location, type: .gpsCoord)
+            let weatherDetailsVM = WeatherDetailsVM(title: "My location", weatheService: OpenWeatherAPIMock.shared, request: request)
+            pushToWeatherDetailsWith(vm: weatherDetailsVM)
+        } else {
+            self.viewModel.startLocationService()
+        }
     }
 }
 
@@ -202,7 +208,7 @@ extension WeatherSearchVC: UISearchBarDelegate {
                     // save recent
                     self.viewModel.saveRecent(request)
                     // navigate to weather details
-                    let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
                     self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
                     break
                 case .failure(let err):

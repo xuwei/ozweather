@@ -62,7 +62,7 @@ extension WLocationService: CLLocationManagerDelegate {
         self.currentLocation = last
         // notify
         NotificationUtil.shared.notify(eventName: .locationUpdate, userInfokey: .currentLocation, object: last)
-        BasicLogger.shared.log(last.stringify())
+        BasicLogger.shared.log(last.toCLLocationCoordinate2D().stringify())
     }
 }
 

@@ -12,7 +12,7 @@ class WeatherDetailsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
  
-    var viewModel = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: "", type: .city))
+    var viewModel = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: "", type: .city))
     
     override func viewDidLoad() {
         super.viewDidLoad()

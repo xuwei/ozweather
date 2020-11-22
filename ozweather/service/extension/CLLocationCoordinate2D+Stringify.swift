@@ -7,8 +7,8 @@
 
 import CoreLocation
 
-extension CLLocation {
+extension CLLocationCoordinate2D {
     func stringify()->String {
-        return String("lat:\(self.coordinate.latitude),lon:\(self.coordinate.longitude)")
+        return String("lat:\(self.latitude),lon:\(self.longitude)")
     }
 }

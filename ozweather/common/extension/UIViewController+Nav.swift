@@ -10,7 +10,10 @@ import UIKit
 extension UIViewController {
     
     func pushToWeatherDetailsWith(vm: WeatherDetailsVM) {
-        pushToViewController(storyboardName: .main, storyboardId: .weatherDetails)
+        guard let nav =  self.navigationController else { return }
+        guard let vc = viewControllerBy(storyboardName: .main, storyboardId: .weatherDetails) as? WeatherDetailsVC else { return }
+        vc.viewModel = vm
+        nav.pushViewController(vc, animated: true)
     }
     
     private func pushToViewController(storyboardName: StoryboardName, storyboardId: StoryboardId) {
