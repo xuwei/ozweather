@@ -22,10 +22,18 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
         let userDefaults = UserDefaults.standard
         var arr: [WeatherSearchCacheItem] = []
         if let existingArr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName) { arr = existingArr }
-        arr.append(element)
+        
+        // then check any previous element thats duplicated, and remove it
+        var filtered = arr.filter { elem in
+            return elem != element
+        }
+    
+        // add new element to end first
+        filtered.append(element)
+        
         do {
-            try userDefaults.setCustomObject(arr, forKey: listName)
-            return arr
+            try userDefaults.setCustomObject(filtered, forKey: listName)
+            return filtered
         } catch let err {
             print(err)
             return []

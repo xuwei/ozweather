@@ -148,7 +148,8 @@ extension WeatherSearchVC: UISearchBarDelegate {
             
             switch result {
             case .success(let forecast):
-                // cache search result
+                // save recent 
+                self.viewModel.saveRecent(request)
                 // navigate to weather details
                 let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
                 self.pushToWeatherDetailsWith(vm: weatherDetailsVM)

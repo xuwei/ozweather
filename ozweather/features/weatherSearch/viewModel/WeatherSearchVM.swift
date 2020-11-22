@@ -40,6 +40,12 @@ class WeatherSearchVM {
         completionHandler(.success(true))
     }
     
+    func saveRecent(_ req: WeatherSearchRequest) {
+        // cache search result
+        guard let cacheItem = WeatherSearchRequestUtil().toWeatherServiceCacheItem(req) else { return }
+        let _  = self.searchCache.enqueue(listName: listName, element: cacheItem)
+    }
+    
     private func loadUseGPSSection()->WeatherSearchSection {
         let sectionTitle = "current location"
         let gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaption)

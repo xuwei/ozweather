@@ -29,4 +29,18 @@ class WeatherSearchRequestUtil {
             return .unknown
         }
     }
+    
+    func toWeatherServiceCacheItem(_ req: WeatherSearchRequest)->WeatherSearchCacheItem? {
+        switch req.type {
+        case .city:
+            return WeatherSearchCacheItem(city: req.city, type: .city)
+        case .zipCode:
+            return WeatherSearchCacheItem(zipCode: req.zip, type: .zipCode)
+        case .gpsCoord:
+            guard let coord = req.coord else { return nil }
+            return WeatherSearchCacheItem(longitude: coord.longitude, latitude: coord.latitude, type: .gpsCoord)
+        case .unknown:
+            return nil
+        }
+    }
 }

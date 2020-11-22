@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherSearchCacheItem: Codable {
+struct WeatherSearchCacheItem: Codable, Equatable {
     
     var city: String?
     var zipCode: String?
@@ -46,5 +46,9 @@ struct WeatherSearchCacheItem: Codable {
         default:
             return "unknown"
         }
+    }
+    
+    static func ==(lhs: WeatherSearchCacheItem, rhs: WeatherSearchCacheItem) -> Bool {
+        return lhs.city == rhs.city && lhs.zipCode == rhs.zipCode && lhs.longitude == rhs.longitude && lhs.latitude == rhs.latitude && lhs.type == rhs.type
     }
 }
