@@ -15,11 +15,16 @@ struct WeatherSearchSection {
 
 class WeatherSearchVM {
     
+    var listName: SearchCacheListName = .searchCacheList
+    let title = ScreenName.search.rawValue
     // use real service by default, unless we overriden with mock for dev/test purpose
     private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
     private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     private var locationService: WLocationServiceProtocol = WLocationService.shared
-    
+    private let defaultUseGPSCellTitle = "Use my current location"
+    private let defaultUseGPSCellCaption = "requires permission to detect location"
+    var sections: [WeatherSearchSection] = []
+    var location: CLLocationCoordinate2D?
     
     // for dependency injection
     convenience init(searchCache: WeatherSearchCacheManagerProtocol, weatheService: WeatherServiceProtocol, locationService: WLocationServiceProtocol) {
@@ -28,13 +33,6 @@ class WeatherSearchVM {
         self.weatheService = weatheService
         self.locationService = locationService
     }
-    
-    let title = ScreenName.search.rawValue
-    
-    private let defaultUseGPSCellTitle = "Use my current location"
-    private let defaultUseGPSCellCaption = "requires permission to detect location"
-    var sections: [WeatherSearchSection] = []
-    var location: CLLocationCoordinate2D?
     
     private func updateSectionList() {
         var sections: [WeatherSearchSection] = []
@@ -59,7 +57,7 @@ class WeatherSearchVM {
     private func loadRecentSection()->WeatherSearchSection {
         let sectionTitle = "most recent"
         var result: [TableViewCellVMProtocol] = []
-        if let recents = searchCache.getQueue(listName: .searchCacheList) {
+        if let recents = searchCache.getQueue(listName: listName) {
             // newly added on top, so recents.reversed()
             for cacheItem in recents.reversed() {
                 let vm: WeatherLocationCellVM = WeatherLocationCellVM(text: cacheItem.stringify(), type: cacheItem.type)
@@ -83,24 +81,29 @@ extension WeatherSearchVM {
 
 // MARK: cache related
 extension WeatherSearchVM {
-    func loadRecent(_ completionHandler: @escaping (Result<Bool, Error>)->Void) {
-        self.updateSectionList()
-        completionHandler(.success(true))
-    }
-    
-    func removeRecent(_ vm: WeatherLocationCellVM, completionHandler: @escaping ()->Void) {
-        // remove from searchCache
-        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
-        let _ = self.searchCache.clear(listName: .searchCacheList,item: cacheItem)
+    func loadRecent(_ completionHandler: @escaping ()->Void) {
         self.updateSectionList()
         completionHandler()
+    }
+    
+    func removeRecent(_ vm: WeatherLocationCellVM) {
+        // remove from searchCache
+        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
+        let _ = self.searchCache.clear(listName: listName,item: cacheItem)
+        self.updateSectionList()
     }
     
     func saveRecent(_ req: WeatherSearchRequest) {
         // cache search result
         guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(req) else { return }
-        let _  = self.searchCache.enqueue(listName: .searchCacheList, element: cacheItem)
+        let _  = self.searchCache.enqueue(listName: listName, element: cacheItem)
         self.updateSectionList()
+    }
+    
+    func clearRecent(_ completionHandler: @escaping ()->Void) {
+        self.searchCache.clearList(listName: listName)
+        self.updateSectionList()
+        completionHandler()
     }
 }
 

@@ -30,7 +30,7 @@ class WeatherSearchVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         addEventObservers()
-        viewModel.loadRecent() { _ in
+        viewModel.loadRecent() {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.tableView.reloadData()
@@ -88,8 +88,8 @@ class WeatherSearchVC: UIViewController {
     }
     
     @objc private func refresh() {
-        self.viewModel.loadRecent { [weak self] _ in
-            DispatchQueue.main.async {
+        self.viewModel.loadRecent {
+            DispatchQueue.main.async { [weak self] in 
                 guard let self = self else { return }
                 self.refreshControl.endRefreshing()
                 self.tableView.reloadData()
@@ -147,11 +147,12 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func delete(vm: WeatherLocationCellVM) {
         print("delete")
-        self.viewModel.removeRecent(vm) {
+        self.viewModel.removeRecent(vm)
+        self.viewModel.loadRecent {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.tableView.reloadData()
-            }
+               guard let self = self else { return }
+               self.tableView.reloadData()
+           }
         }
     }
     
