@@ -10,7 +10,7 @@ import XCTest
 
 class OpenWeatherMockTests: XCTestCase {
 
-    let service: WeatherServiceProtocol = OpenWeatherMock.shared
+    let service: WeatherServiceProtocol = OpenWeatherAPIMock.shared
     
     func testSearchByCity() {
         let expectation = XCTestExpectation(description: "search by valid city name")

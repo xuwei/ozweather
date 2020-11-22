@@ -22,7 +22,7 @@ extension WeatherServiceError: LocalizedError {
         case .invalidParam:
             return "Invalid search parameters"
         case .invalidParamFormat:
-            return "Invalid search parameter format. Eg: 'Atlanta' or '30301'"
+            return "Invalid search parameter format. Usage: 'Atlanta' or '30301'"
         case .GPSNotAvailable:
             return "GPS not available"
         case .genericError:

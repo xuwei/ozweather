@@ -28,3 +28,4 @@ struct WeatherSearchRequest {
         self.type = type
     }
 }
+

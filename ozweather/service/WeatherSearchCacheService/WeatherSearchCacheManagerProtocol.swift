@@ -8,9 +8,10 @@
 import Foundation
 
 protocol WeatherSearchCacheManagerProtocol {
-    func getQueue(listName: String) -> [WeatherSearchCacheItem]?
-    func enqueue(listName: String, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem]
-    func clearList(listName: String)
+    func getQueue(listName: SearchCacheListName) -> [WeatherSearchCacheItem]?
+    func enqueue(listName: SearchCacheListName, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem]
+    func clearList(listName: SearchCacheListName)
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem)->[WeatherSearchCacheItem]
 }
 
 // utility method for cache manager 
