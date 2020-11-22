@@ -12,15 +12,19 @@ class WeatherSearchCacheMock: WeatherSearchCacheManagerProtocol {
     static let shared = WeatherSearchCacheMock()
     private init () { }
     
-    func getQueue(listName: String) -> [WeatherSearchCacheItem]? {
+    func getQueue(listName: SearchCacheListName) -> [WeatherSearchCacheItem]? {
         return randomQueue()
     }
     
-    func enqueue(listName: String, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem] {
+    func enqueue(listName: SearchCacheListName, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem] {
         return randomQueue()
     }
     
-    func clearList(listName: String) {
+    func clearList(listName: SearchCacheListName) {
+        return
+    }
+    
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem) {
         return
     }
     

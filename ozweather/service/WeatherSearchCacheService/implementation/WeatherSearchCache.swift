@@ -12,16 +12,16 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
     static let shared = WeatherSearchCache()
     private init () { }
     
-    func getQueue(listName: String) -> [WeatherSearchCacheItem]? {
+    func getQueue(listName: SearchCacheListName) -> [WeatherSearchCacheItem]? {
         let userDefaults = UserDefaults.standard
-        guard let arr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName) else { return nil }
+        guard let arr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName.rawValue) else { return nil }
         return arr
     }
     
-    func enqueue(listName: String, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem] {
+    func enqueue(listName: SearchCacheListName, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem] {
         let userDefaults = UserDefaults.standard
         var arr: [WeatherSearchCacheItem] = []
-        if let existingArr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName) { arr = existingArr }
+        if let existingArr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName.rawValue) { arr = existingArr }
         
         // then check any previous element thats duplicated, and remove it
         var filtered = arr.filter { elem in
@@ -32,7 +32,7 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
         filtered.append(element)
         
         do {
-            try userDefaults.setCustomObject(filtered, forKey: listName)
+            try userDefaults.setCustomObject(filtered, forKey: listName.rawValue)
             return filtered
         } catch let err {
             print(err)
@@ -40,8 +40,12 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
         }
     }
     
-    func clearList(listName: String) {
+    func clearList(listName: SearchCacheListName) {
         let userDefaults = UserDefaults.standard
-        userDefaults.removeObject(forKey: listName)
+        userDefaults.removeObject(forKey: listName.rawValue)
+    }
+    
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem) {
+        // todo 
     }
 }

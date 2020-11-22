@@ -20,3 +20,7 @@ enum ScreenName: String {
     case search = "Search"
     case forecast = "Forecast" 
 }
+
+enum SearchCacheListName: String {
+    case searchCacheList = "searchCacheList"
+}

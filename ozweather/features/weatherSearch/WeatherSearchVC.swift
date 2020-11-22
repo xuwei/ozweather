@@ -12,8 +12,9 @@ class WeatherSearchVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    let refreshControl = UIRefreshControl()
     
-    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherAPIMock.shared)
+    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCache.shared, weatheService: OpenWeatherAPI.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,10 @@ class WeatherSearchVC: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = AppData.shared.theme.backgroundColor
         tableView.allowsSelection = false
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     private func registerCells() {
@@ -62,6 +67,16 @@ class WeatherSearchVC: UIViewController {
     
     private func endLoading() {
         self.loadingIndicator.stopAnimating()
+    }
+    
+    @objc private func refresh() {
+        self.viewModel.loadRecent { [weak self] _ in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -102,8 +117,10 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
 extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func delete(vm: WeatherLocationCellVM) {
-        // todo
-        print("delete recent from cache")
+        self.viewModel.removeRecent(vm)
+        self.viewModel.loadRecent { _ in
+            tableView.reloadData()
+        }
     }
     
     func weatherForecast(vm: WeatherLocationCellVM) {
@@ -143,20 +160,22 @@ extension WeatherSearchVC: UISearchBarDelegate {
         guard let request = req else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
         self.showLoading()
         self.viewModel.queueSearch(request) { [weak self] result in
-            guard let self = self else { return }
-            self.endLoading()
-            
-            switch result {
-            case .success(let forecast):
-                // save recent 
-                self.viewModel.saveRecent(request)
-                // navigate to weather details
-                let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
-                self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
-                break
-            case .failure(let err):
-                self.alert(error: err, completionHandler: nil)
-                break
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.endLoading()
+                
+                switch result {
+                case .success(let forecast):
+                    // save recent
+                    self.viewModel.saveRecent(request)
+                    // navigate to weather details
+                    let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                    self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
+                    break
+                case .failure(let err):
+                    self.alert(error: err, completionHandler: nil)
+                    break
+                }
             }
         }
     }

@@ -40,10 +40,16 @@ class WeatherSearchVM {
         completionHandler(.success(true))
     }
     
+    func removeRecent(_ vm: WeatherLocationCellVM) {
+        // remove from searchCache
+        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
+        self.searchCache.clear(listName: .searchCacheList,item: cacheItem)
+    }
+    
     func saveRecent(_ req: WeatherSearchRequest) {
         // cache search result
-        guard let cacheItem = WeatherSearchRequestUtil().toWeatherServiceCacheItem(req) else { return }
-        let _  = self.searchCache.enqueue(listName: listName, element: cacheItem)
+        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(req) else { return }
+        let _  = self.searchCache.enqueue(listName: .searchCacheList, element: cacheItem)
     }
     
     private func loadUseGPSSection()->WeatherSearchSection {
@@ -55,7 +61,7 @@ class WeatherSearchVM {
     private func loadRecentSection()->WeatherSearchSection {
         let sectionTitle = "recent"
         var result: [TableViewCellVMProtocol] = []
-        if let recents = searchCache.getQueue(listName: listName) {
+        if let recents = searchCache.getQueue(listName: .searchCacheList) {
             // newly added on top, so recents.reversed()
             for cacheItem in recents.reversed() {
                 let vm: WeatherLocationCellVM = WeatherLocationCellVM(text: cacheItem.stringify(), type: cacheItem.type)
