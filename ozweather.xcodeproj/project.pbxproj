@@ -238,13 +238,6 @@
 			path = util;
 			sourceTree = "<group>";
 		};
-		9664EAF9256A780A00A2C3DB /* viewcontroller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = viewcontroller;
-			sourceTree = "<group>";
-		};
 		9664EB05256A7B1F00A2C3DB /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				96E64AB92567D03C006BBEE8 /* util */,
-				9664EAF9256A780A00A2C3DB /* viewcontroller */,
 				96E64A7A256755DB006BBEE8 /* tableviewcell */,
 				96E64A6C256754C0006BBEE8 /* enum */,
 				96E64A6025675201006BBEE8 /* config */,
