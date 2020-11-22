@@ -24,8 +24,8 @@ class WeatherSearchCacheMock: WeatherSearchCacheManagerProtocol {
         return
     }
     
-    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem) {
-        return
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem)->[WeatherSearchCacheItem] {
+        return randomQueue()
     }
     
     private func randomQueue()->[WeatherSearchCacheItem] {

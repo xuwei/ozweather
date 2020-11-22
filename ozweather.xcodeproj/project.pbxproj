@@ -28,6 +28,11 @@
 		9664EAE7256A185800A2C3DB /* UIViewController+AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EAE6256A185800A2C3DB /* UIViewController+AlertError.swift */; };
 		9664EAEC256A1EF800A2C3DB /* WeatherSearchRequestUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EAEB256A1EF800A2C3DB /* WeatherSearchRequestUtilTests.swift */; };
 		9664EAF2256A3FDC00A2C3DB /* WeatherSearchCacheUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EAF1256A3FDC00A2C3DB /* WeatherSearchCacheUtil.swift */; };
+		9664EB01256A7A6000A2C3DB /* NotificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB00256A7A6000A2C3DB /* NotificationConstants.swift */; };
+		9664EB07256A7B3000A2C3DB /* NotificationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB06256A7B3000A2C3DB /* NotificationUtil.swift */; };
+		9664EB0B256A7D3F00A2C3DB /* WLocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB0A256A7D3F00A2C3DB /* WLocationServiceProtocol.swift */; };
+		9664EB0F256A7D5000A2C3DB /* WLocationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */; };
+		9664EB25256A848700A2C3DB /* CLLocation+Stringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB24256A848700A2C3DB /* CLLocation+Stringify.swift */; };
 		967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51D92565BEE800A28480 /* AppDelegate.swift */; };
 		967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DB2565BEE800A28480 /* SceneDelegate.swift */; };
 		967E51DE2565BEE800A28480 /* WeatherSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DD2565BEE800A28480 /* WeatherSearchVC.swift */; };
@@ -59,7 +64,7 @@
 		96E64AB62567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64AB52567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift */; };
 		96E64ABB2567D053006BBEE8 /* LoggerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64ABA2567D053006BBEE8 /* LoggerProtocol.swift */; };
 		96E64AC52567D0BD006BBEE8 /* BasicLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64AC42567D0BD006BBEE8 /* BasicLogger.swift */; };
-		96E64ACD2567DBAA006BBEE8 /* WLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64ACC2567DBAA006BBEE8 /* WLocationManager.swift */; };
+		96E64ACD2567DBAA006BBEE8 /* WLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64ACC2567DBAA006BBEE8 /* WLocationService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,11 @@
 		9664EAE6256A185800A2C3DB /* UIViewController+AlertError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+AlertError.swift"; sourceTree = "<group>"; };
 		9664EAEB256A1EF800A2C3DB /* WeatherSearchRequestUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchRequestUtilTests.swift; sourceTree = "<group>"; };
 		9664EAF1256A3FDC00A2C3DB /* WeatherSearchCacheUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchCacheUtil.swift; sourceTree = "<group>"; };
+		9664EB00256A7A6000A2C3DB /* NotificationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConstants.swift; sourceTree = "<group>"; };
+		9664EB06256A7B3000A2C3DB /* NotificationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUtil.swift; sourceTree = "<group>"; };
+		9664EB0A256A7D3F00A2C3DB /* WLocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationServiceProtocol.swift; sourceTree = "<group>"; };
+		9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationServiceMock.swift; sourceTree = "<group>"; };
+		9664EB24256A848700A2C3DB /* CLLocation+Stringify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Stringify.swift"; sourceTree = "<group>"; };
 		967E51D62565BEE800A28480 /* ozweather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ozweather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		967E51D92565BEE800A28480 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		967E51DB2565BEE800A28480 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +141,7 @@
 		96E64AB52567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+SaveCustomObject.swift"; sourceTree = "<group>"; };
 		96E64ABA2567D053006BBEE8 /* LoggerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerProtocol.swift; sourceTree = "<group>"; };
 		96E64AC42567D0BD006BBEE8 /* BasicLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicLogger.swift; sourceTree = "<group>"; };
-		96E64ACC2567DBAA006BBEE8 /* WLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationManager.swift; sourceTree = "<group>"; };
+		96E64ACC2567DBAA006BBEE8 /* WLocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationService.swift; sourceTree = "<group>"; };
 		B3BBA3A70E24E5D90FFC8A66 /* Pods_ozweatherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ozweatherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD54FA5605111C79B0C74416 /* Pods_ozweatherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ozweatherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E71B9386D6ADC9EE39E564E7 /* Pods-ozweatherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ozweatherUITests.debug.xcconfig"; path = "Target Support Files/Pods-ozweatherUITests/Pods-ozweatherUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -228,6 +238,46 @@
 			path = util;
 			sourceTree = "<group>";
 		};
+		9664EAF9256A780A00A2C3DB /* viewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewcontroller;
+			sourceTree = "<group>";
+		};
+		9664EB05256A7B1F00A2C3DB /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				9664EB06256A7B3000A2C3DB /* NotificationUtil.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		9664EB12256A7D5500A2C3DB /* implementation */ = {
+			isa = PBXGroup;
+			children = (
+				96E64ACC2567DBAA006BBEE8 /* WLocationService.swift */,
+				9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */,
+			);
+			path = implementation;
+			sourceTree = "<group>";
+		};
+		9664EB19256A808300A2C3DB /* enum */ = {
+			isa = PBXGroup;
+			children = (
+				9664EB00256A7A6000A2C3DB /* NotificationConstants.swift */,
+			);
+			path = enum;
+			sourceTree = "<group>";
+		};
+		9664EB23256A847200A2C3DB /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				9664EB24256A848700A2C3DB /* CLLocation+Stringify.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		967E51CD2565BEE800A28480 = {
 			isa = PBXGroup;
 			children = (
@@ -278,7 +328,9 @@
 		967E520F2565C19600A28480 /* service */ = {
 			isa = PBXGroup;
 			children = (
-				96E64ACB2567DB85006BBEE8 /* LocationService */,
+				9664EB23256A847200A2C3DB /* extension */,
+				9664EB19256A808300A2C3DB /* enum */,
+				96E64ACB2567DB85006BBEE8 /* WLocationService */,
 				96E64A79256755B3006BBEE8 /* WeatherSearchCacheService */,
 				967E52302565C77B00A28480 /* WeatherService */,
 			);
@@ -391,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				96E64AB92567D03C006BBEE8 /* util */,
+				9664EAF9256A780A00A2C3DB /* viewcontroller */,
 				96E64A7A256755DB006BBEE8 /* tableviewcell */,
 				96E64A6C256754C0006BBEE8 /* enum */,
 				96E64A6025675201006BBEE8 /* config */,
@@ -541,12 +594,14 @@
 			path = Implementation;
 			sourceTree = "<group>";
 		};
-		96E64ACB2567DB85006BBEE8 /* LocationService */ = {
+		96E64ACB2567DB85006BBEE8 /* WLocationService */ = {
 			isa = PBXGroup;
 			children = (
-				96E64ACC2567DBAA006BBEE8 /* WLocationManager.swift */,
+				9664EB05256A7B1F00A2C3DB /* Notification */,
+				9664EB12256A7D5500A2C3DB /* implementation */,
+				9664EB0A256A7D3F00A2C3DB /* WLocationServiceProtocol.swift */,
 			);
-			path = LocationService;
+			path = WLocationService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -706,6 +761,7 @@
 				9692E65D25664A62002C2D65 /* UIColor+HexToColor.swift in Sources */,
 				96E64A532567342F006BBEE8 /* Data+PrintAsDictDescription.swift in Sources */,
 				96606D9B2569202E006B6CF5 /* UIViewController+TapToDismissKeyboard.swift in Sources */,
+				9664EB0B256A7D3F00A2C3DB /* WLocationServiceProtocol.swift in Sources */,
 				967E51DE2565BEE800A28480 /* WeatherSearchVC.swift in Sources */,
 				9664EAE7256A185800A2C3DB /* UIViewController+AlertError.swift in Sources */,
 				96606D812568CB58006B6CF5 /* WeatherSearchCacheMock.swift in Sources */,
@@ -718,6 +774,7 @@
 				967E524F2565D0D400A28480 /* OpenWeatherAPIMock.swift in Sources */,
 				967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */,
 				9664EAF2256A3FDC00A2C3DB /* WeatherSearchCacheUtil.swift in Sources */,
+				9664EB01256A7A6000A2C3DB /* NotificationConstants.swift in Sources */,
 				966002AA2565DA11000877CE /* WeatherDetailsVC.swift in Sources */,
 				967E52232565C3A600A28480 /* OpenWeatherAPI.swift in Sources */,
 				96E64AB62567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift in Sources */,
@@ -726,9 +783,12 @@
 				96E64A6E256754D1006BBEE8 /* Constants.swift in Sources */,
 				96606D4F2568B947006B6CF5 /* WeatherLocationCell.swift in Sources */,
 				967E525A2565D27F00A28480 /* OpenWeatherMockUtil.swift in Sources */,
+				9664EB0F256A7D5000A2C3DB /* WLocationServiceMock.swift in Sources */,
+				9664EB25256A848700A2C3DB /* CLLocation+Stringify.swift in Sources */,
 				9692E5FD25664117002C2D65 /* WeatherServiceError.swift in Sources */,
 				9664EAD92569D89600A2C3DB /* UIViewController+Nav.swift in Sources */,
 				96606D752568C4AC006B6CF5 /* UseGPSLocationCell.swift in Sources */,
+				9664EB07256A7B3000A2C3DB /* NotificationUtil.swift in Sources */,
 				96E64ABB2567D053006BBEE8 /* LoggerProtocol.swift in Sources */,
 				96E64A7525675526006BBEE8 /* WeatherDetailsVM.swift in Sources */,
 				96606D792568C4BD006B6CF5 /* UseGPSLocationCellVM.swift in Sources */,
@@ -737,7 +797,7 @@
 				96E64A67256752E9006BBEE8 /* WeatherSearchVM.swift in Sources */,
 				967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */,
 				967E52332565C86300A28480 /* WeatherForecast.swift in Sources */,
-				96E64ACD2567DBAA006BBEE8 /* WLocationManager.swift in Sources */,
+				96E64ACD2567DBAA006BBEE8 /* WLocationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

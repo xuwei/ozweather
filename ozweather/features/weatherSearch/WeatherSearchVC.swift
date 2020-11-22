@@ -27,7 +27,10 @@ class WeatherSearchVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.loadRecent() { _ in
-            tableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -93,7 +96,6 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        BasicLogger.shared.log(self.viewModel.sections[section].title)
         return self.viewModel.sections[section].title
     }
     
@@ -117,9 +119,12 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
 extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func delete(vm: WeatherLocationCellVM) {
-        self.viewModel.removeRecent(vm)
-        self.viewModel.loadRecent { _ in
-            tableView.reloadData()
+        print("delete")
+        self.viewModel.removeRecent(vm) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -133,7 +138,8 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
 // MARK: UseGPSLocationCellDelegate
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
-        WLocationManager.shared.start()
+        print("use current location")
+        WLocationService.shared.start()
     }
 }
 

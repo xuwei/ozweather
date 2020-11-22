@@ -27,29 +27,35 @@ class WeatherSearchVM {
     
     private let defaultUseGPSCellTitle = "Use my current location"
     private let defaultUseGPSCellCaption = "requires permission to detect location"
-    private let listName = "WeatherSearch"
     var sections: [WeatherSearchSection] = []
     
-    func loadRecent(_ completionHandler: (Result<Bool, Error>)->Void) {
+    func loadRecent(_ completionHandler: @escaping (Result<Bool, Error>)->Void) {
+        self.updateSectionList()
+        completionHandler(.success(true))
+    }
+    
+    func removeRecent(_ vm: WeatherLocationCellVM, completionHandler: @escaping ()->Void) {
+        // remove from searchCache
+        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
+        let _ = self.searchCache.clear(listName: .searchCacheList,item: cacheItem)
+        self.updateSectionList()
+        completionHandler()
+    }
+    
+    private func updateSectionList() {
         var sections: [WeatherSearchSection] = []
         let gpsSection = loadUseGPSSection()
         let recentSection = loadRecentSection()
         sections.append(gpsSection)
         sections.append(recentSection)
         self.sections = sections
-        completionHandler(.success(true))
-    }
-    
-    func removeRecent(_ vm: WeatherLocationCellVM) {
-        // remove from searchCache
-        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
-        self.searchCache.clear(listName: .searchCacheList,item: cacheItem)
     }
     
     func saveRecent(_ req: WeatherSearchRequest) {
         // cache search result
         guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(req) else { return }
         let _  = self.searchCache.enqueue(listName: .searchCacheList, element: cacheItem)
+        self.updateSectionList()
     }
     
     private func loadUseGPSSection()->WeatherSearchSection {
@@ -59,7 +65,7 @@ class WeatherSearchVM {
     }
     
     private func loadRecentSection()->WeatherSearchSection {
-        let sectionTitle = "recent"
+        let sectionTitle = "most recent"
         var result: [TableViewCellVMProtocol] = []
         if let recents = searchCache.getQueue(listName: .searchCacheList) {
             // newly added on top, so recents.reversed()

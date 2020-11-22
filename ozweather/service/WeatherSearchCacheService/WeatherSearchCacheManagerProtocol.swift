@@ -11,7 +11,7 @@ protocol WeatherSearchCacheManagerProtocol {
     func getQueue(listName: SearchCacheListName) -> [WeatherSearchCacheItem]?
     func enqueue(listName: SearchCacheListName, element: WeatherSearchCacheItem) -> [WeatherSearchCacheItem]
     func clearList(listName: SearchCacheListName)
-    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem)
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem)->[WeatherSearchCacheItem]
 }
 
 // utility method for cache manager 

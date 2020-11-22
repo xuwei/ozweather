@@ -25,6 +25,7 @@ class UseGPSLocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        setupControl()
     }
     
     private func setupUI() {

@@ -45,7 +45,21 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
         userDefaults.removeObject(forKey: listName.rawValue)
     }
     
-    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem) {
-        // todo 
+    func clear(listName: SearchCacheListName, item: WeatherSearchCacheItem)->[WeatherSearchCacheItem] {
+        let userDefaults = UserDefaults.standard
+        if let existingArr: [WeatherSearchCacheItem] = userDefaults.customObjectArray(forKey: listName.rawValue) {
+            let filtered = existingArr.filter { elem in
+                elem != item
+            }
+            
+            do {
+                try userDefaults.setCustomObject(filtered, forKey: listName.rawValue)
+                return filtered
+            } catch let err {
+                print(err)
+                return []
+            }
+        }
+        return [] 
     }
 }
