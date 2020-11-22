@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreLocation
+import NotificationCenter
 
 class WeatherSearchVC: UIViewController {
     
@@ -14,7 +16,7 @@ class WeatherSearchVC: UIViewController {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     let refreshControl = UIRefreshControl()
     
-    var viewModel = WeatherSearchVM(searchCache: WeatherSearchCache.shared, weatheService: OpenWeatherAPI.shared)
+    var viewModel = WeatherSearchVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,7 @@ class WeatherSearchVC: UIViewController {
     // important to de-register events when viewcontroller disappears
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        self.viewModel.stopLocationService()
         removeNotificationEventObservers()
     }
     
@@ -95,7 +98,15 @@ class WeatherSearchVC: UIViewController {
     }
     
     @objc private func locationUpdate(notification: NSNotification) {
-        print("weather search vc - location update")
+        BasicLogger.shared.log("weather search vc - location update")
+        guard let location = notification.userInfo?[NotificationUserInfoKey.currentLocation.rawValue] as? CLLocation else { return }
+        self.viewModel.updateLocation(location) { _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
+        }
+        
     }
 }
 
@@ -155,7 +166,7 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
         print("use current location")
-        WLocationService.shared.start()
+        self.viewModel.startLocationService()
     }
 }
 

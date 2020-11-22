@@ -8,7 +8,10 @@
 import Foundation
 import CoreLocation
 
-class WLocationServiceMock: NSObject, WLocationServiceProtocol {
+class WLocationServiceMock: WLocationServiceProtocol {
+    
+    static let shared = WLocationServiceMock()
+    private init() {}
     
     func start() {
         let currentLocation = CLLocation(latitude: -30.0, longitude: 30.0)
