@@ -192,8 +192,8 @@ extension WeatherSearchVC: UISearchBarDelegate {
         }
         guard let request = req else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
         self.showLoading()
-        self.viewModel.queueSearch(request) { [weak self] result in
-            DispatchQueue.main.async {
+        self.viewModel.queueSearch(request) { result in
+            DispatchQueue.main.async { [weak self]  in
                 guard let self = self else { return }
                 self.endLoading()
                 

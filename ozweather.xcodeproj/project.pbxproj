@@ -34,6 +34,7 @@
 		9664EB0F256A7D5000A2C3DB /* WLocationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */; };
 		9664EB25256A848700A2C3DB /* CLLocation+Stringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB24256A848700A2C3DB /* CLLocation+Stringify.swift */; };
 		9664EB29256A86F700A2C3DB /* UIViewController+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */; };
+		9664EB34256A956600A2C3DB /* UIViewController+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */; };
 		967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51D92565BEE800A28480 /* AppDelegate.swift */; };
 		967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DB2565BEE800A28480 /* SceneDelegate.swift */; };
 		967E51DE2565BEE800A28480 /* WeatherSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DD2565BEE800A28480 /* WeatherSearchVC.swift */; };
@@ -108,6 +109,7 @@
 		9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationServiceMock.swift; sourceTree = "<group>"; };
 		9664EB24256A848700A2C3DB /* CLLocation+Stringify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Stringify.swift"; sourceTree = "<group>"; };
 		9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Notifications.swift"; sourceTree = "<group>"; };
+		9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TopViewController.swift"; sourceTree = "<group>"; };
 		967E51D62565BEE800A28480 /* ozweather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ozweather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		967E51D92565BEE800A28480 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		967E51DB2565BEE800A28480 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 				9664EAD82569D89600A2C3DB /* UIViewController+Nav.swift */,
 				9664EAE6256A185800A2C3DB /* UIViewController+AlertError.swift */,
 				9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */,
+				9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				96E64A6225675212006BBEE8 /* AppData.swift in Sources */,
 				96606DA525693ADE006B6CF5 /* WeatherSearchRequestUtil.swift in Sources */,
 				96E64A8125675678006BBEE8 /* WeatherSearchCache.swift in Sources */,
+				9664EB34256A956600A2C3DB /* UIViewController+TopViewController.swift in Sources */,
 				9692E60D256644AF002C2D65 /* GumtreeTheme.swift in Sources */,
 				96606D9F25692325006B6CF5 /* TableViewCellProtocol.swift in Sources */,
 				967E524F2565D0D400A28480 /* OpenWeatherAPIMock.swift in Sources */,
