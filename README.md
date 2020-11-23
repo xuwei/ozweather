@@ -16,7 +16,7 @@ weather app using open weather api
 
 - OpenWeatherServices implements the weather api integration. 
 
-- Didn't use extension to UIImageView to load image by URL, because this approach will have memory leak when apply onto tableview with lots of cells to scroll through, I externally load image instead and assign the image back to corresponding cell. Check usage of ImageService.
+- Didn't use extension to UIImageView to load image by URL, because this approach will have memory leak when apply onto tableview with lots of cells to scroll through, I externally load image instead and assign the image back to corresponding cell. Check usage of ImageService. A cache can be added to improve loading performance, as the amount of icons are limited by types of weather.
 
 - Alot of service and util classes is separated into protocol+implementation, so it's easy to enhance/optimise implementations later.
 
