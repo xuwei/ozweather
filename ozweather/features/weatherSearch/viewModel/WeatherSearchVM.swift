@@ -72,11 +72,40 @@ class WeatherSearchVM {
 
 // MARK: search related
 extension WeatherSearchVM {
+    
+    func toSearchRequest(_ text: String)->WeatherSearchRequest? {
+        // validate text input and transform to request object
+        let searchReqUtil = WeatherSearchRequestUtil()
+        let reqType = searchReqUtil.typeOfRequest(text)
+        switch reqType {
+        case .city:
+            return WeatherSearchRequest(city: text, type: .city)
+        case .zipCode:
+            return WeatherSearchRequest(zip: text, type: .zipCode)
+        default:
+            return nil
+        }
+    }
+    
     func queueSearch(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
+        
+        if validateSearchRequest(req) != true { completionHandler(.failure(.invalidParamFormat)); return }
+        // query for forecast
         weatheService.searchBy(query: req) { result in
             completionHandler(result)
         }
     }
+    
+    // restrict request formats for queueSearch
+    private func validateSearchRequest(_ req: WeatherSearchRequest)->Bool {
+        switch req.type {
+        case .city, .zipCode:
+            return true
+        default:
+            return false
+        }
+    }
+    
 }
 
 // MARK: cache related

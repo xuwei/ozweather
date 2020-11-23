@@ -182,24 +182,12 @@ extension WeatherSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let text = searchBar.text else { return }
-        var req: WeatherSearchRequest?
-        // validate text input and transform to request object
-        let searchReqUtil = WeatherSearchRequestUtil()
-        let reqType = searchReqUtil.typeOfRequest(text)
-        switch reqType {
-        case .city:
-            req = WeatherSearchRequest(city: text, type: .city)
-            break
-        case .zipCode:
-            req = WeatherSearchRequest(zip: text, type: .zipCode)
-            break
-        default:
-            alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil)
-            return
-        }
-        guard let request = req else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        
+        // validate
+        guard let searchReq = self.viewModel.toSearchRequest(text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        
         self.showLoading()
-        self.viewModel.queueSearch(request) { result in
+        self.viewModel.queueSearch(searchReq) { result in
             DispatchQueue.main.async { [weak self]  in
                 guard let self = self else { return }
                 self.endLoading()
@@ -207,9 +195,9 @@ extension WeatherSearchVC: UISearchBarDelegate {
                 switch result {
                 case .success(let forecast):
                     // save recent
-                    self.viewModel.saveRecent(request)
+                    self.viewModel.saveRecent(searchReq)
                     // navigate to weather details
-                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherAPI.shared, request: searchReq, forecast: forecast)
                     self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
                     break
                 case .failure(let err):
