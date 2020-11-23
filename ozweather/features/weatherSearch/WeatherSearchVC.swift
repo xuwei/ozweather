@@ -9,12 +9,9 @@ import UIKit
 import CoreLocation
 import NotificationCenter
 
-class WeatherSearchVC: UIViewController {
+class WeatherSearchVC: WTableVC {
     
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    let refreshControl = UIRefreshControl()
     
     var viewModel = WeatherSearchVM()
     
@@ -58,9 +55,9 @@ class WeatherSearchVC: UIViewController {
         tableView.backgroundColor = AppData.shared.theme.backgroundColor
         tableView.allowsSelection = false
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        // add refresh controller
+        addRefreshControl()
+        addLoadingIndicator()
     }
     
     private func addEventObservers() {
@@ -79,24 +76,6 @@ class WeatherSearchVC: UIViewController {
         self.tableView.register(nib2, forCellReuseIdentifier: UseGPSLocationCell.identifier)
     }
     
-    private func showLoading() {
-        self.loadingIndicator.startAnimating()
-    }
-    
-    private func endLoading() {
-        self.loadingIndicator.stopAnimating()
-    }
-    
-    @objc private func refresh() {
-        self.viewModel.loadRecent {
-            DispatchQueue.main.async { [weak self] in 
-                guard let self = self else { return }
-                self.refreshControl.endRefreshing()
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
     @objc private func locationUpdate(notification: NSNotification) {
         BasicLogger.shared.log("weather search vc - location update")
         guard let location = notification.userInfo?[NotificationUserInfoKey.currentLocation.rawValue] as? CLLocation else { return }
@@ -106,7 +85,18 @@ class WeatherSearchVC: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
+    }
+    
+    // overriding parent method
+    @objc override func refresh() {
+        refreshControl.beginRefreshing()
+        self.viewModel.loadRecent {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 

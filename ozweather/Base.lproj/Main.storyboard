@@ -34,23 +34,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="BWs-hp-hmH"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hC0-WG-yAb">
-                                <rect key="frame" x="182" y="423" width="50" height="50"/>
-                                <color key="tintColor" red="0.2135460376739502" green="1" blue="0.82070046663284302" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="5yA-9U-7zn"/>
-                                    <constraint firstAttribute="height" constant="50" id="bNl-lz-7pF"/>
-                                </constraints>
-                                <color key="color" systemColor="systemGreenColor"/>
-                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="hC0-WG-yAb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="69u-3C-COP"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9iZ-ZA-d1h"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="top" secondItem="hoz-D1-cBV" secondAttribute="bottom" id="B1f-pK-GIy"/>
-                            <constraint firstItem="hC0-WG-yAb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="E9Q-oZ-afK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="h3s-mw-xUp" secondAttribute="bottom" id="eFO-C9-dn4"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="top" secondItem="hoz-D1-cBV" secondAttribute="bottom" id="oPu-z5-Rd2"/>
                             <constraint firstItem="h3s-mw-xUp" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="u65-Uk-DqM"/>
@@ -58,9 +47,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Search" id="C20-Ct-JYo"/>
                     <connections>
-                        <outlet property="loadingIndicator" destination="hC0-WG-yAb" id="QqT-PQ-0Gk"/>
                         <outlet property="searchBar" destination="hoz-D1-cBV" id="dkG-bi-TVD"/>
-                        <outlet property="tableView" destination="h3s-mw-xUp" id="zQc-6g-Vs9"/>
+                        <outlet property="tableView" destination="h3s-mw-xUp" id="LWf-hd-4rU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -111,9 +99,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
