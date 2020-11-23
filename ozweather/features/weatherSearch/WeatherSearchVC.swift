@@ -57,6 +57,7 @@ class WeatherSearchVC: WTableVC {
         
         // add refresh controller
         addRefreshControl()
+        // add loading indicator
         addLoadingIndicator()
     }
     

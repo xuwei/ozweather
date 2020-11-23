@@ -8,11 +8,8 @@
 import Foundation
 import UIKit
 
-class WeatherDetailsVC: UIViewController {
+class WeatherDetailsVC: WTableVC {
     
-    @IBOutlet weak var tableView: UITableView!
-    let refreshControl = UIRefreshControl()
- 
     var viewModel: WeatherDetailsVM = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPI.shared, request: WeatherSearchRequest(city: "", type: .city))
     
     override func viewDidLoad() {
@@ -27,9 +24,11 @@ class WeatherDetailsVC: UIViewController {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.showLoading()
         self.viewModel.refreshForecast { _ in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                self.endLoading()
                 self.tableView.reloadData()
             }
         }
@@ -48,12 +47,13 @@ class WeatherDetailsVC: UIViewController {
         tableView.backgroundColor = AppData.shared.theme.backgroundColor
         tableView.allowsSelection = false
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        // add refresh controller
+        addRefreshControl()
+        // add loading indicator
+        addLoadingIndicator()
     }
     
-    @objc private func refresh() {
+    @objc override func refresh() {
         self.refreshControl.beginRefreshing()
         self.viewModel.refreshForecast { _ in
             DispatchQueue.main.async { [weak self] in
