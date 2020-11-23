@@ -47,4 +47,14 @@ class WTableVC: UIViewController {
         BasicLogger.shared.log("WTableVC refresh method is not overriden")
     }
     
+    // adding observer to gps location update
+    func addLocationEventObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(notification:)), name: NSNotification.Name(NotificationEvent.locationUpdate.rawValue), object: nil)
+    }
+    
+    // to be overriden
+    @objc func locationUpdate(notification: NSNotification) {
+        BasicLogger.shared.log("WTableVC locationUpdate method is not overriden")
+    }
+    
 }

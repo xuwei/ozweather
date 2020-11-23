@@ -26,7 +26,7 @@ class WeatherSearchVC: WTableVC {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addEventObservers()
+        addLocationEventObserver()
         viewModel.loadRecent() {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -38,7 +38,6 @@ class WeatherSearchVC: WTableVC {
     // important to de-register events when viewcontroller disappears
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.viewModel.stopLocationService()
         removeNotificationEventObservers()
     }
     
@@ -60,10 +59,6 @@ class WeatherSearchVC: WTableVC {
         addLoadingIndicator()
     }
     
-    private func addEventObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(notification:)), name: NSNotification.Name(NotificationEvent.locationUpdate.rawValue), object: nil)
-    }
-    
     private func registerCells() {
         guard self.tableView != nil else { return }
         
@@ -77,7 +72,7 @@ class WeatherSearchVC: WTableVC {
     }
     
     // handling location update events
-    @objc private func locationUpdate(notification: NSNotification) {
+    @objc override func locationUpdate(notification: NSNotification) {
         BasicLogger.shared.log("weather search vc - location update")
         guard let location = notification.userInfo?[NotificationUserInfoKey.currentLocation.rawValue] as? CLLocation else { return }
         self.viewModel.updateLocation(location) { _ in

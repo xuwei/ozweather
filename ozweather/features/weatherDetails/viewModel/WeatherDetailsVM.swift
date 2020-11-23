@@ -6,13 +6,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherDetailsVM {
     
     let title: String
     var cellVM: WeatherForecastCellVM?
     private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
-    private let weatherSearchRequest: WeatherSearchRequest
+    private var weatherSearchRequest: WeatherSearchRequest
     
     init(title: String, weatheService: WeatherServiceProtocol, request: WeatherSearchRequest) {
         self.title = title
@@ -26,9 +27,9 @@ class WeatherDetailsVM {
         cellVM = toWeatherForecastCellVM(with: forecast)
     }
     
-    private func toWeatherForecastCellVM(with forecast:WeatherForecast)->WeatherForecastCellVM {
-        let weatherDescription = forecast.weather.first?.description ?? ""
-        return WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), weatherDescription: weatherDescription, iconUrl: "", temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
+    func updateLocation(_ location: CLLocation) {
+        let location2D = location.toCLLocationCoordinate2D()
+        self.weatherSearchRequest = WeatherSearchRequest(coord: location2D, type: .gpsCoord)
     }
     
     func refreshForecast(_ completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
@@ -49,4 +50,14 @@ class WeatherDetailsVM {
     func forecastLoaded()->Bool {
         return self.cellVM != nil ? true : false
     }
+    
+    func needLocationService()->Bool {
+        return weatherSearchRequest.type == .gpsCoord
+    }
+    
+    private func toWeatherForecastCellVM(with forecast:WeatherForecast)->WeatherForecastCellVM {
+        let weatherDescription = forecast.weather.first?.description ?? ""
+        return WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), weatherDescription: weatherDescription, iconUrl: "", temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
+    }
+    
 }

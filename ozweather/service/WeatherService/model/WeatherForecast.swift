@@ -39,7 +39,7 @@ struct Coord: Codable {
     }
     
     func stringify()->String {
-        return String("lat:\(latitude),lon:\(longitude)")
+        return StringifyUtil.shared.stringifyCoord(latitude: self.latitude, longitude: self.longitude)
     }
 }
 

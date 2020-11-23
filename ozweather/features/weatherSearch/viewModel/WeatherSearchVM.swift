@@ -47,7 +47,8 @@ class WeatherSearchVM {
         let sectionTitle = "current location"
         var gpsLocation: UseGPSLocationCellVM
         if let location =  self.location {
-            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: location.stringify())
+            let stringifyCoord = StringifyUtil.shared.stringifyCoord(latitude: location.latitude, longitude: location.longitude)
+            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: stringifyCoord)
         } else {
             gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaption)
         }

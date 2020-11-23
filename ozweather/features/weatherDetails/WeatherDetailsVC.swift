@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 import UIKit
 
 class WeatherDetailsVC: WTableVC {
@@ -24,6 +25,9 @@ class WeatherDetailsVC: WTableVC {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if self.viewModel.needLocationService() {
+            addLocationEventObserver()
+        }
         self.showLoading()
         self.viewModel.refreshForecast { _ in
             DispatchQueue.main.async { [weak self] in
@@ -32,6 +36,11 @@ class WeatherDetailsVC: WTableVC {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationEventObservers()
     }
         
     private func setupTableview() {
@@ -62,6 +71,14 @@ class WeatherDetailsVC: WTableVC {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    // handling location update events
+    @objc override func locationUpdate(notification: NSNotification) {
+        BasicLogger.shared.log("weather details vc - location update")
+        guard let location = notification.userInfo?[NotificationUserInfoKey.currentLocation.rawValue] as? CLLocation else { return }
+        self.viewModel.updateLocation(location)
+        self.refresh()
     }
     
     private func registerCells() {

@@ -42,7 +42,7 @@ struct WeatherSearchCacheItem: Codable, Equatable {
         case .gpsCoord:
             let latitude = self.latitude ?? 0.0
             let longitude = self.longitude ?? 0.0
-            return String("lat:\(latitude),lon:\(longitude)")
+            return StringifyUtil.shared.stringifyCoord(latitude: latitude, longitude: longitude)
         default:
             return "unknown"
         }
