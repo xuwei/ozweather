@@ -23,4 +23,5 @@ enum ScreenName: String {
 
 enum SearchCacheListName: String {
     case searchCacheList = "searchCacheList"
+    case testSearchCacheList = "testSearchCacheList"
 }

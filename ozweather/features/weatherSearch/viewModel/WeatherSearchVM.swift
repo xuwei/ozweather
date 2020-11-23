@@ -15,11 +15,17 @@ struct WeatherSearchSection {
 
 class WeatherSearchVM {
     
+    var listName: SearchCacheListName = .searchCacheList
+    let title = ScreenName.search.rawValue
     // use real service by default, unless we overriden with mock for dev/test purpose
     private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
     private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     private var locationService: WLocationServiceProtocol = WLocationService.shared
-    private var location: CLLocation?
+    private let defaultUseGPSCellTitle = "Use my current location"
+    private let defaultUseGPSCellCaptionNotActive = "requires permission to detect location"
+    private let defaultUseGPSCellCaptionActive = "Waiting for update from service..."
+    var sections: [WeatherSearchSection] = []
+    var location: CLLocationCoordinate2D?
     
     // for dependency injection
     convenience init(searchCache: WeatherSearchCacheManagerProtocol, weatheService: WeatherServiceProtocol, locationService: WLocationServiceProtocol) {
@@ -28,12 +34,6 @@ class WeatherSearchVM {
         self.weatheService = weatheService
         self.locationService = locationService
     }
-    
-    let title = ScreenName.search.rawValue
-    
-    private let defaultUseGPSCellTitle = "Use my current location"
-    private let defaultUseGPSCellCaption = "requires permission to detect location"
-    var sections: [WeatherSearchSection] = []
     
     private func updateSectionList() {
         var sections: [WeatherSearchSection] = []
@@ -47,10 +47,14 @@ class WeatherSearchVM {
     private func loadUseGPSSection()->WeatherSearchSection {
         let sectionTitle = "current location"
         var gpsLocation: UseGPSLocationCellVM
-        if let location =  self.location {
-            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: location.stringify())
+        if self.isLocationServiceActive() {
+            var caption = defaultUseGPSCellCaptionActive
+            if let location =  self.location {
+                caption = StringifyUtil.shared.stringifyCoord(latitude: location.latitude, longitude: location.longitude)
+            }
+            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: caption, locationServiceActive: self.isLocationServiceActive())
         } else {
-            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaption)
+            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaptionNotActive, locationServiceActive: self.isLocationServiceActive())
         }
         return WeatherSearchSection(title: sectionTitle, cellVMList:  [gpsLocation])
     }
@@ -58,7 +62,7 @@ class WeatherSearchVM {
     private func loadRecentSection()->WeatherSearchSection {
         let sectionTitle = "most recent"
         var result: [TableViewCellVMProtocol] = []
-        if let recents = searchCache.getQueue(listName: .searchCacheList) {
+        if let recents = searchCache.getQueue(listName: listName) {
             // newly added on top, so recents.reversed()
             for cacheItem in recents.reversed() {
                 let vm: WeatherLocationCellVM = WeatherLocationCellVM(text: cacheItem.stringify(), type: cacheItem.type)
@@ -73,33 +77,67 @@ class WeatherSearchVM {
 
 // MARK: search related
 extension WeatherSearchVM {
-    func queueSearch(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
+    
+    func toSearchRequest(_ text: String)->WeatherSearchRequest? {
+        // validate text input and transform to request object
+        let searchReqUtil = WeatherSearchRequestUtil()
+        let reqType = searchReqUtil.typeOfRequest(text)
+        switch reqType {
+        case .city:
+            return WeatherSearchRequest(city: text, type: .city)
+        case .zipCode:
+            return WeatherSearchRequest(zip: text, type: .zipCode)
+        default:
+            return nil
+        }
+    }
+    
+    func search(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
+        
+        if validateSearchRequest(req) != true { completionHandler(.failure(.invalidParamFormat)); return }
+        // query for forecast
         weatheService.searchBy(query: req) { result in
             completionHandler(result)
         }
     }
+    
+    // restrict request formats for queueSearch
+    private func validateSearchRequest(_ req: WeatherSearchRequest)->Bool {
+        switch req.type {
+        case .city, .zipCode, .gpsCoord:
+            return true
+        default:
+            return false
+        }
+    }
+    
 }
 
 // MARK: cache related
 extension WeatherSearchVM {
-    func loadRecent(_ completionHandler: @escaping (Result<Bool, Error>)->Void) {
-        self.updateSectionList()
-        completionHandler(.success(true))
-    }
-    
-    func removeRecent(_ vm: WeatherLocationCellVM, completionHandler: @escaping ()->Void) {
-        // remove from searchCache
-        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
-        let _ = self.searchCache.clear(listName: .searchCacheList,item: cacheItem)
+    func loadRecent(_ completionHandler: @escaping ()->Void) {
         self.updateSectionList()
         completionHandler()
+    }
+    
+    func removeRecent(_ vm: WeatherLocationCellVM) {
+        // remove from searchCache
+        guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(vm) else { return }
+        let _ = self.searchCache.clear(listName: listName,item: cacheItem)
+        self.updateSectionList()
     }
     
     func saveRecent(_ req: WeatherSearchRequest) {
         // cache search result
         guard let cacheItem = WeatherSearchCacheUtil().toWeatherServiceCacheItem(req) else { return }
-        let _  = self.searchCache.enqueue(listName: .searchCacheList, element: cacheItem)
+        let _  = self.searchCache.enqueue(listName: listName, element: cacheItem)
         self.updateSectionList()
+    }
+    
+    func clearRecent(_ completionHandler: @escaping ()->Void) {
+        self.searchCache.clearList(listName: listName)
+        self.updateSectionList()
+        completionHandler()
     }
 }
 
@@ -108,19 +146,21 @@ extension WeatherSearchVM {
     
     func updateLocation(_ location: CLLocation, completionHandler: @escaping (Result<Bool, Error>)->Void) {
         // update and refresh table
-        self.location = location
+        self.location = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         updateSectionList()
         completionHandler(.success(true))
     }
     
     func startLocationService() {
-        if (self.locationService.isActive() == true) {
-            self.locationService.start()
-        }
+        self.locationService.start()
     }
     
     func stopLocationService() {
         self.locationService.stop()
+    }
+    
+    func isLocationServiceActive()->Bool {
+        return self.locationService.isActive()
     }
 }
 

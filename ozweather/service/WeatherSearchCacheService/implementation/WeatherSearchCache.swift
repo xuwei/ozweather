@@ -10,6 +10,7 @@ import Foundation
 class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
     
     static let shared = WeatherSearchCache()
+    let cacheMax = 50
     private init () { }
     
     func getQueue(listName: SearchCacheListName) -> [WeatherSearchCacheItem]? {
@@ -30,6 +31,11 @@ class WeatherSearchCache: WeatherSearchCacheManagerProtocol {
     
         // add new element to end first
         filtered.append(element)
+        
+        // if we reach max of cache size, remove the oldest
+        if (filtered.count > cacheMax) {
+            filtered.remove(at: 0)
+        }
         
         do {
             try userDefaults.setCustomObject(filtered, forKey: listName.rawValue)

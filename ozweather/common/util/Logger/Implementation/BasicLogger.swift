@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BasicLogger: LoggerProtocol {
+struct BasicLogger: LoggerProtocol {
     
     static let shared = BasicLogger()
     private init() { }

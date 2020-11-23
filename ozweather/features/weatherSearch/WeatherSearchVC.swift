@@ -9,12 +9,9 @@ import UIKit
 import CoreLocation
 import NotificationCenter
 
-class WeatherSearchVC: UIViewController {
+class WeatherSearchVC: WTableVC {
     
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    let refreshControl = UIRefreshControl()
     
     var viewModel = WeatherSearchVM()
     
@@ -29,8 +26,12 @@ class WeatherSearchVC: UIViewController {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        addEventObservers()
-        viewModel.loadRecent() { _ in
+        // start service even when it's active
+        if viewModel.isLocationServiceActive() {
+            self.viewModel.startLocationService()
+        }
+        addLocationEventObserver()
+        viewModel.loadRecent() {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.tableView.reloadData()
@@ -41,7 +42,6 @@ class WeatherSearchVC: UIViewController {
     // important to de-register events when viewcontroller disappears
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.viewModel.stopLocationService()
         removeNotificationEventObservers()
     }
     
@@ -58,13 +58,9 @@ class WeatherSearchVC: UIViewController {
         tableView.backgroundColor = AppData.shared.theme.backgroundColor
         tableView.allowsSelection = false
         
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableView.addSubview(refreshControl)
-    }
-    
-    private func addEventObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(notification:)), name: NSNotification.Name(NotificationEvent.locationUpdate.rawValue), object: nil)
+        // add refresh controller
+        addRefreshControl()
+        addLoadingIndicator()
     }
     
     private func registerCells() {
@@ -79,25 +75,8 @@ class WeatherSearchVC: UIViewController {
         self.tableView.register(nib2, forCellReuseIdentifier: UseGPSLocationCell.identifier)
     }
     
-    private func showLoading() {
-        self.loadingIndicator.startAnimating()
-    }
-    
-    private func endLoading() {
-        self.loadingIndicator.stopAnimating()
-    }
-    
-    @objc private func refresh() {
-        self.viewModel.loadRecent { [weak self] _ in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.refreshControl.endRefreshing()
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    @objc private func locationUpdate(notification: NSNotification) {
+    // handling location update events
+    @objc override func locationUpdate(notification: NSNotification) {
         BasicLogger.shared.log("weather search vc - location update")
         guard let location = notification.userInfo?[NotificationUserInfoKey.currentLocation.rawValue] as? CLLocation else { return }
         self.viewModel.updateLocation(location) { _ in
@@ -106,7 +85,18 @@ class WeatherSearchVC: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        
+    }
+    
+    // overriding parent method
+    @objc override func refresh() {
+        refreshControl.beginRefreshing()
+        self.viewModel.loadRecent {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -146,27 +136,49 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
 extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func delete(vm: WeatherLocationCellVM) {
-        print("delete")
-        self.viewModel.removeRecent(vm) {
+        BasicLogger.shared.log("delete recent")
+        self.viewModel.removeRecent(vm)
+        self.viewModel.loadRecent {
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.tableView.reloadData()
-            }
+               guard let self = self else { return }
+               self.tableView.reloadData()
+           }
         }
     }
     
     func weatherForecast(vm: WeatherLocationCellVM) {
-        print("weather location selected")
-        let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: vm.text, type: vm.type))
+        BasicLogger.shared.log("weather location selected")
+        guard let req = self.viewModel.toSearchRequest(vm.text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherAPI.shared, request: req)
         pushToWeatherDetailsWith(vm: weatherDetailsVM)
     }
 }
 
 // MARK: UseGPSLocationCellDelegate
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
+    
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
-        print("use current location")
-        self.viewModel.startLocationService()
+        BasicLogger.shared.log("use current location")
+        if self.viewModel.isLocationServiceActive(),
+           let location = self.viewModel.location {
+            let request = WeatherSearchRequest(coord: location, type: .gpsCoord)
+            self.viewModel.search(request) { result in
+                DispatchQueue.main.async { [weak self]  in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let forecast):
+                        let weatherDetailsVM = WeatherDetailsVM(title: "GPS Location", weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                        self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
+                        break
+                    case .failure(let error):
+                        self.alert(error: error, completionHandler: nil)
+                        break
+                    }
+                }
+            }
+        } else {
+            self.viewModel.startLocationService()
+        }
     }
 }
 
@@ -175,24 +187,12 @@ extension WeatherSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let text = searchBar.text else { return }
-        var req: WeatherSearchRequest?
-        // validate text input and transform to request object
-        let searchReqUtil = WeatherSearchRequestUtil()
-        let reqType = searchReqUtil.typeOfRequest(text)
-        switch reqType {
-        case .city:
-            req = WeatherSearchRequest(city: text, type: .city)
-            break
-        case .zipCode:
-            req = WeatherSearchRequest(zip: text, type: .zipCode)
-            break
-        default:
-            alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil)
-            return
-        }
-        guard let request = req else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        
+        // validate
+        guard let searchReq = self.viewModel.toSearchRequest(text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        
         self.showLoading()
-        self.viewModel.queueSearch(request) { result in
+        self.viewModel.search(searchReq) { result in
             DispatchQueue.main.async { [weak self]  in
                 guard let self = self else { return }
                 self.endLoading()
@@ -200,9 +200,9 @@ extension WeatherSearchVC: UISearchBarDelegate {
                 switch result {
                 case .success(let forecast):
                     // save recent
-                    self.viewModel.saveRecent(request)
+                    self.viewModel.saveRecent(searchReq)
                     // navigate to weather details
-                    let weatherDetailsVM = WeatherDetailsVM(weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherAPI.shared, request: searchReq, forecast: forecast)
                     self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
                     break
                 case .failure(let err):

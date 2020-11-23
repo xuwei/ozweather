@@ -101,7 +101,7 @@ class OpenWeatherAPI: WeatherServiceProtocol {
             let result: WeatherForecast = try resultDecoder.decode(WeatherForecast.self, from: data)
             completionHandler(.success(result))
         } catch let err {
-            print(err)
+            BasicLogger.shared.logError(err)
             completionHandler(.failure(.genericError))
         }
     }
