@@ -26,7 +26,7 @@ extension WeatherServiceError: LocalizedError {
         case .GPSNotAvailable:
             return "GPS not available"
         case .genericError:
-            return "Error has occurred, please try again later"
+            return "Error has occurred, please check your connectivity and try again later"
         }
     }
 }

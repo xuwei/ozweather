@@ -17,6 +17,7 @@ protocol ThemeProtocol {
     var primaryTextColor: UIColor { get }
     var primaryColor: UIColor { get }
     var secondaryColor: UIColor { get }
+    var secondaryTextColor: UIColor { get } 
     var backgroundColor: UIColor { get }
 }
 

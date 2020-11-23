@@ -9,6 +9,17 @@ import UIKit
 
 class WTableVC: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = AppData.shared.theme.backgroundColor
+    }
+    
+    // remove observer by default when view controller disappears
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationEventObservers()
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     var loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let loadingIndicatorSize: CGFloat = 50.0
@@ -34,11 +45,13 @@ class WTableVC: UIViewController {
     
     func showLoading() {
         guard self.loadingIndicator.isDescendant(of: self.view) else { return }
+        self.view.isUserInteractionEnabled = false
         self.loadingIndicator.startAnimating()
     }
     
     func endLoading() {
         guard self.loadingIndicator.isDescendant(of: self.view) else { return }
+        self.view.isUserInteractionEnabled = true
         self.loadingIndicator.stopAnimating()
     }
     

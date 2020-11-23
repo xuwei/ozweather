@@ -12,6 +12,17 @@ struct AutoLayoutUtil: AutoLayoutUtilProtocol {
     static let shared = AutoLayoutUtil()
     private init() {}
     
+    func pinToSuperView (_ view: UIView, left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) {
+        guard let superview = view.superview else { return }
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1.0, constant: top)
+        let left = NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: superview, attribute: .left, multiplier: 1.0, constant: left)
+        let right = NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: superview, attribute: .right, multiplier: 1.0, constant: right)
+        let bottom = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1.0, constant: bottom)
+        superview.addConstraints([top, left, right, bottom])
+    }
+    
     func pinToSuperviewCenter(_ view: UIView, width: CGFloat, height: CGFloat) {
         guard let superview = view.superview else { return }
         view.translatesAutoresizingMaskIntoConstraints = false
