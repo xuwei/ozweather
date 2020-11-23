@@ -10,7 +10,7 @@ struct WeatherForecastCellVM: TableViewCellVMProtocol {
     var identifier: String
     let location: String
     let coordString: String
-    let description: String
+    let weatherDescription: String
     let iconUrl: String
     let temperature: Double
     let country: String

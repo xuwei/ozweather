@@ -28,8 +28,8 @@ class WeatherForecastCell: UITableViewCell {
     
     private func setupUI() {
         let theme: ThemeProtocol = AppData.shared.theme
-        containerView.backgroundColor = theme.primaryColor
-        weatherLocationLabel.textColor = theme.primaryColor
+        containerView.backgroundColor = theme.backgroundColor
+        weatherLocationLabel.textColor = theme.primaryTextColor
     }
     
     // we always clear the content on cell before re-use
@@ -40,7 +40,7 @@ class WeatherForecastCell: UITableViewCell {
         weatherDescriptionLabel.text = ""
         feelsLikeTemperatureLabel.text = ""
         countryLabel.text = ""
-        weatherImageIcon.image = nil
+//        weatherImageIcon.image = nil
     }
 }
 
@@ -49,7 +49,7 @@ extension WeatherForecastCell: TableViewCellProtocol {
         guard let viewModel = vm as? WeatherForecastCellVM else { return }
         weatherLocationLabel.text = viewModel.location
         weatherLocationCoord.text = viewModel.coordString
-        weatherDescriptionLabel.text = viewModel.description
+        weatherDescriptionLabel.text = viewModel.weatherDescription
         feelsLikeTemperatureLabel.text = String("Feels like \(viewModel.temperature)")
         countryLabel.text = viewModel.country
     }

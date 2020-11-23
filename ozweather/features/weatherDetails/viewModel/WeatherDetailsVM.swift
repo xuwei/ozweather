@@ -27,7 +27,8 @@ class WeatherDetailsVM {
     }
     
     private func toWeatherForecastCellVM(with forecast:WeatherForecast)->WeatherForecastCellVM {
-        WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), description: forecast.weather.description, iconUrl: "", temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
+        let weatherDescription = forecast.weather.first?.description ?? ""
+        return WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), weatherDescription: weatherDescription, iconUrl: "", temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
     }
     
     func refreshForecast(_ completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {

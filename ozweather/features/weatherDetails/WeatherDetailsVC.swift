@@ -11,6 +11,7 @@ import UIKit
 class WeatherDetailsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    let refreshControl = UIRefreshControl()
  
     var viewModel = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: "", type: .city))
     
@@ -26,12 +27,6 @@ class WeatherDetailsVC: UIViewController {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.refreshForecast { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.tableView.reloadData()
-            }
-        }
     }
         
     private func setupTableview() {
@@ -40,10 +35,27 @@ class WeatherDetailsVC: UIViewController {
         /// default is 0, setting to more than 0 enables automatic cell height, will calculate by intrinsic value
         tableView.estimatedRowHeight = 1
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = AppData.shared.theme.backgroundColor
+        tableView.allowsSelection = false
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc private func refresh() {
+        self.refreshControl.beginRefreshing()
+        self.viewModel.refreshForecast { _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
     
     private func registerCells() {
