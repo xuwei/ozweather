@@ -99,7 +99,7 @@ extension WeatherSearchVM {
     // restrict request formats for queueSearch
     private func validateSearchRequest(_ req: WeatherSearchRequest)->Bool {
         switch req.type {
-        case .city, .zipCode:
+        case .city, .zipCode, .gpsCoord:
             return true
         default:
             return false

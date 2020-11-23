@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AutoLayoutUtil: AutoLayoutUtilProtocol {
+struct AutoLayoutUtil: AutoLayoutUtilProtocol {
     
     static let shared = AutoLayoutUtil()
     private init() {}

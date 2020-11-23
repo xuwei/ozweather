@@ -61,6 +61,10 @@
 		96E59C24256B625D00F34793 /* WTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C23256B625D00F34793 /* WTableVC.swift */; };
 		96E59C2B256B667B00F34793 /* AutoLayoutUtilProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C2A256B667B00F34793 /* AutoLayoutUtilProtocol.swift */; };
 		96E59C34256B66B400F34793 /* AutoLayoutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C33256B66B400F34793 /* AutoLayoutUtil.swift */; };
+		96E59C3F256B79F700F34793 /* UIViewController+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C3E256B79F600F34793 /* UIViewController+Notifications.swift */; };
+		96E59C44256B7AE100F34793 /* TemperatureUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C43256B7AE100F34793 /* TemperatureUtil.swift */; };
+		96E59C4C256B7BEB00F34793 /* TemperatureUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C4B256B7BEB00F34793 /* TemperatureUtilTests.swift */; };
+		96E59C52256B80BF00F34793 /* Double+Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E59C51256B80BF00F34793 /* Double+Round.swift */; };
 		96E64A532567342F006BBEE8 /* Data+PrintAsDictDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64A522567342F006BBEE8 /* Data+PrintAsDictDescription.swift */; };
 		96E64A6225675212006BBEE8 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64A6125675212006BBEE8 /* AppData.swift */; };
 		96E64A67256752E9006BBEE8 /* WeatherSearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E64A66256752E9006BBEE8 /* WeatherSearchVM.swift */; };
@@ -147,6 +151,10 @@
 		96E59C23256B625D00F34793 /* WTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WTableVC.swift; sourceTree = "<group>"; };
 		96E59C2A256B667B00F34793 /* AutoLayoutUtilProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutUtilProtocol.swift; sourceTree = "<group>"; };
 		96E59C33256B66B400F34793 /* AutoLayoutUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutUtil.swift; sourceTree = "<group>"; };
+		96E59C3E256B79F600F34793 /* UIViewController+Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Notifications.swift"; sourceTree = "<group>"; };
+		96E59C43256B7AE100F34793 /* TemperatureUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureUtil.swift; sourceTree = "<group>"; };
+		96E59C4B256B7BEB00F34793 /* TemperatureUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureUtilTests.swift; sourceTree = "<group>"; };
+		96E59C51256B80BF00F34793 /* Double+Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Round.swift"; sourceTree = "<group>"; };
 		96E64A522567342F006BBEE8 /* Data+PrintAsDictDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+PrintAsDictDescription.swift"; sourceTree = "<group>"; };
 		96E64A6125675212006BBEE8 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		96E64A66256752E9006BBEE8 /* WeatherSearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSearchVM.swift; sourceTree = "<group>"; };
@@ -519,6 +527,7 @@
 		9692E65B25664A46002C2D65 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				96E59C3E256B79F600F34793 /* UIViewController+Notifications.swift */,
 				96E64AB52567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift */,
 				9692E65C25664A62002C2D65 /* UIColor+HexToColor.swift */,
 				96E64A522567342F006BBEE8 /* Data+PrintAsDictDescription.swift */,
@@ -526,6 +535,7 @@
 				9664EAD82569D89600A2C3DB /* UIViewController+Nav.swift */,
 				9664EAE6256A185800A2C3DB /* UIViewController+AlertError.swift */,
 				9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */,
+				96E59C51256B80BF00F34793 /* Double+Round.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -533,6 +543,7 @@
 		9692E66125669FDB002C2D65 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				96E59C49256B7BD600F34793 /* util */,
 				9692E66A25669FF9002C2D65 /* extension */,
 			);
 			path = common;
@@ -569,6 +580,30 @@
 				96E59C33256B66B400F34793 /* AutoLayoutUtil.swift */,
 			);
 			path = Implementation;
+			sourceTree = "<group>";
+		};
+		96E59C42256B7AD100F34793 /* Temperature */ = {
+			isa = PBXGroup;
+			children = (
+				96E59C43256B7AE100F34793 /* TemperatureUtil.swift */,
+			);
+			path = Temperature;
+			sourceTree = "<group>";
+		};
+		96E59C49256B7BD600F34793 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				96E59C4A256B7BDA00F34793 /* Temperature */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
+		96E59C4A256B7BDA00F34793 /* Temperature */ = {
+			isa = PBXGroup;
+			children = (
+				96E59C4B256B7BEB00F34793 /* TemperatureUtilTests.swift */,
+			);
+			path = Temperature;
 			sourceTree = "<group>";
 		};
 		96E64A6025675201006BBEE8 /* config */ = {
@@ -654,6 +689,7 @@
 		96E64AB92567D03C006BBEE8 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				96E59C42256B7AD100F34793 /* Temperature */,
 				96E59C29256B666400F34793 /* AutoLayout */,
 				96E64AC02567D07B006BBEE8 /* Logger */,
 			);
@@ -868,6 +904,7 @@
 				966002AA2565DA11000877CE /* WeatherDetailsVC.swift in Sources */,
 				967E52232565C3A600A28480 /* OpenWeatherAPI.swift in Sources */,
 				96E64AB62567A79B006BBEE8 /* UserDefaults+SaveCustomObject.swift in Sources */,
+				96E59C52256B80BF00F34793 /* Double+Round.swift in Sources */,
 				9692E61525664779002C2D65 /* WeatherSearchRequest.swift in Sources */,
 				967E522B2565C75300A28480 /* WeatherServiceProtocol.swift in Sources */,
 				96E64A6E256754D1006BBEE8 /* Constants.swift in Sources */,
@@ -880,12 +917,14 @@
 				96606D752568C4AC006B6CF5 /* UseGPSLocationCell.swift in Sources */,
 				9664EB07256A7B3000A2C3DB /* NotificationUtil.swift in Sources */,
 				96E64ABB2567D053006BBEE8 /* LoggerProtocol.swift in Sources */,
+				96E59C44256B7AE100F34793 /* TemperatureUtil.swift in Sources */,
 				96E64A7525675526006BBEE8 /* WeatherDetailsVM.swift in Sources */,
 				96606D792568C4BD006B6CF5 /* UseGPSLocationCellVM.swift in Sources */,
 				96606D862568CBE3006B6CF5 /* WeatherSearchCacheMockUtil.swift in Sources */,
 				96E64AC52567D0BD006BBEE8 /* BasicLogger.swift in Sources */,
 				96E64A67256752E9006BBEE8 /* WeatherSearchVM.swift in Sources */,
 				967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */,
+				96E59C3F256B79F700F34793 /* UIViewController+Notifications.swift in Sources */,
 				967E52332565C86300A28480 /* WeatherForecast.swift in Sources */,
 				96E59C2B256B667B00F34793 /* AutoLayoutUtilProtocol.swift in Sources */,
 				96E64ACD2567DBAA006BBEE8 /* WLocationService.swift in Sources */,
@@ -900,6 +939,7 @@
 				9663F937256B0F0700DDFFB9 /* WeatherSearchVMIntegrationTests.swift in Sources */,
 				96606D902568F81B006B6CF5 /* WeatherServiceCacheMockTests.swift in Sources */,
 				96E64AB02567A027006BBEE8 /* WeatherSearchCacheTests.swift in Sources */,
+				96E59C4C256B7BEB00F34793 /* TemperatureUtilTests.swift in Sources */,
 				96606D942568F832006B6CF5 /* WeatherSearchCacheItemTests.swift in Sources */,
 				9692E66325669FF6002C2D65 /* UIColorHexToColorTests.swift in Sources */,
 				9692E5F425663D6B002C2D65 /* XCTestConfig.swift in Sources */,

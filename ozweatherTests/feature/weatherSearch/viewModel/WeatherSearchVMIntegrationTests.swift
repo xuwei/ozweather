@@ -151,17 +151,20 @@ extension WeatherSearchVMIntegrationTests {
         wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
     }
     
-    func testSearchInvalidFormat1 () {
-        let expectation = XCTestExpectation(description: "search invalid request")
-        let request = WeatherSearchRequest(zip: "Atlanta", type: .zipCode)
+    // queueSearch method from search viewModel should only support city and zipcode
+    func testSearchValidCoord () {
+        let expectation = XCTestExpectation(description: "search coord request")
+        let coord = CLLocationCoordinate2D(latitude: -30.0, longitude: -30.0)
+        let request = WeatherSearchRequest(coord: coord, type: .gpsCoord)
         searchVMWithAPI.search(request) { result in
             switch result {
-            case .success(_):
-                XCTFail()
+            case .success(let forecast):
+                XCTAssertNotNil(forecast)
+                XCTAssertNotNil(forecast.weather)
                 expectation.fulfill()
                 break
-            case .failure(let err):
-                XCTAssertNotNil(err)
+            case .failure(_):
+                XCTFail()
                 expectation.fulfill()
                 break
             }
@@ -169,11 +172,9 @@ extension WeatherSearchVMIntegrationTests {
         wait(for: [expectation], timeout: XCTestConfig.integrationTestTimeout)
     }
     
-    // queueSearch method from search viewModel should only support city and zipcode
-    func testSearchInvalidFormat2 () {
+    func testSearchInvalidFormat1 () {
         let expectation = XCTestExpectation(description: "search invalid request")
-        let coord = CLLocationCoordinate2D(latitude: -30.0, longitude: -30.0)
-        let request = WeatherSearchRequest(coord: coord, type: .gpsCoord)
+        let request = WeatherSearchRequest(zip: "Atlanta", type: .zipCode)
         searchVMWithAPI.search(request) { result in
             switch result {
             case .success(_):

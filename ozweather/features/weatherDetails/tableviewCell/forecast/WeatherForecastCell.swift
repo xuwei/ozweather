@@ -50,7 +50,7 @@ extension WeatherForecastCell: TableViewCellProtocol {
         weatherLocationLabel.text = viewModel.location
         weatherLocationCoord.text = viewModel.coordString
         weatherDescriptionLabel.text = viewModel.weatherDescription
-        feelsLikeTemperatureLabel.text = String("Feels like \(viewModel.temperature)")
+        feelsLikeTemperatureLabel.text = String("Feels like \(viewModel.temperature) °C")
         countryLabel.text = viewModel.country
     }
 }
