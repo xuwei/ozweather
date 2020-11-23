@@ -4,7 +4,8 @@ weather app using open weather api
 ### Notes ###
 - MVVM design pattern
 - Cocoapod workspace, but for this project, didn't end up using any third party libraries
-- Storyboard + XIB is used. 
+- Storyboard + XIB is used. I felt most confident with this approach for bootstrapping the app. Storyboard could be replaced with programmatically created Views easily as all controllers are TableViewControllers with a common parent. But ran out of time. 
+- Traditional use of delegate pattern for cell callbacks. 
 - WTableVC is parent class to both WeatherSearchVC and WeatherDetailsVC as both share some common configurations like refreshControl, activity indicator, and both observer of location update
 - Services classes are designed to be independend within Services group, so it's possible to move Services as a separate framework project
 - OpenWeatherServices implements the weather api integration
