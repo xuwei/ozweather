@@ -13,10 +13,10 @@ import CoreLocation
 class WeatherSearchVMIntegrationTests: XCTestCase {
     
     // using mock for location and weather service, as we want to test the cache
-    let searchVMWithCache = WeatherSearchVM(searchCache: WeatherSearchCache.shared, weatheService: OpenWeatherAPIMock.shared, locationService: WLocationServiceMock.shared)
+    let searchVMWithCache = WeatherSearchVM(searchCache: WeatherSearchCache.shared, weatheService: OpenWeatherServiceMock.shared, locationService: WLocationServiceMock.shared)
     
     // using mock for cache and location service, using this variable for api integration test
-    let searchVMWithAPI = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherAPI.shared, locationService: WLocationServiceMock.shared)
+    let searchVMWithAPI = WeatherSearchVM(searchCache: WeatherSearchCacheMock.shared, weatheService: OpenWeatherService.shared, locationService: WLocationServiceMock.shared)
         
     override func setUp() {
         WeatherSearchCache.shared.clearList(listName: .testSearchCacheList)

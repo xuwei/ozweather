@@ -12,7 +12,7 @@ class WeatherDetailsVM {
     
     let title: String
     var cellVM: WeatherForecastCellVM?
-    private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
+    private var weatheService: WeatherServiceProtocol = OpenWeatherService.shared
     private var weatherSearchRequest: WeatherSearchRequest
     
     init(title: String, weatheService: WeatherServiceProtocol, request: WeatherSearchRequest) {
@@ -56,8 +56,13 @@ class WeatherDetailsVM {
     }
     
     private func toWeatherForecastCellVM(with forecast:WeatherForecast)->WeatherForecastCellVM {
+        var url = ""
+        if let weather: Weather = forecast.weather.first {
+            url = OpenWeatherImageUtil().generateIconImageUrl(weather.icon) ?? ""
+        }
+        
         let weatherDescription = forecast.weather.first?.description ?? ""
-        return WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), weatherDescription: weatherDescription, iconUrl: "", temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
+        return WeatherForecastCellVM(identifier: WeatherForecastCell.identifier, location: forecast.name, coordString: forecast.coord.stringify(), weatherDescription: weatherDescription, iconUrl: url, temperature: forecast.temperature.feelsLike, country: forecast.country.countryCode ?? "")
     }
     
 }

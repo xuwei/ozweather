@@ -11,7 +11,7 @@ import UIKit
 
 class WeatherDetailsVC: WTableVC {
     
-    var viewModel: WeatherDetailsVM = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPI.shared, request: WeatherSearchRequest(city: "", type: .city))
+    var viewModel: WeatherDetailsVM = WeatherDetailsVM(title: "", weatheService: OpenWeatherService.shared, request: WeatherSearchRequest(city: "", type: .city))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +103,18 @@ extension WeatherDetailsVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.setupWith(cellModel)
+        
+        // return cell first, when this escaped callback happens, check if the cell exists, then assign image
+        ImageService.shared.loadImage(from: cellModel.iconUrl) { image in
+            DispatchQueue.main.async {
+                guard let image = image else { return }
+                if let existingCell = tableView.cellForRow(at: indexPath) as? WeatherForecastCell {
+                    existingCell.weatherImageIcon.image = image
+                }
+            }
+        }
+
+        
         return cell as? UITableViewCell ?? UITableViewCell()
     }
 }

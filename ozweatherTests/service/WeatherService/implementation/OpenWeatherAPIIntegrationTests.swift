@@ -11,7 +11,7 @@ import CoreLocation
 
 class OpenWeatherAPIIntegrationTests: XCTestCase {
     
-    let service: WeatherServiceProtocol = OpenWeatherAPI.shared
+    let service: WeatherServiceProtocol = OpenWeatherService.shared
     
     func testSearchByCity() {
         let expectation = XCTestExpectation(description: "search by valid city name")

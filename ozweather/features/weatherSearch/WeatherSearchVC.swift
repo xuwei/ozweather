@@ -149,7 +149,7 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
     func weatherForecast(vm: WeatherLocationCellVM) {
         BasicLogger.shared.log("weather location selected")
         guard let req = self.viewModel.toSearchRequest(vm.text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
-        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherAPI.shared, request: req)
+        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherService.shared, request: req)
         pushToWeatherDetailsWith(vm: weatherDetailsVM)
     }
 }
@@ -167,7 +167,7 @@ extension WeatherSearchVC: UseGPSLocationCellDelegate {
                     guard let self = self else { return }
                     switch result {
                     case .success(let forecast):
-                        let weatherDetailsVM = WeatherDetailsVM(title: "GPS Location", weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                        let weatherDetailsVM = WeatherDetailsVM(title: "GPS Location", weatheService: OpenWeatherService.shared, request: request, forecast: forecast)
                         self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
                         break
                     case .failure(let error):
@@ -202,7 +202,7 @@ extension WeatherSearchVC: UISearchBarDelegate {
                     // save recent
                     self.viewModel.saveRecent(searchReq)
                     // navigate to weather details
-                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherAPI.shared, request: searchReq, forecast: forecast)
+                    let weatherDetailsVM = WeatherDetailsVM(title: text,weatheService: OpenWeatherService.shared, request: searchReq, forecast: forecast)
                     self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
                     break
                 case .failure(let err):

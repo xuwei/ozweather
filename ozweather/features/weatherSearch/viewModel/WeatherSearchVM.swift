@@ -18,7 +18,7 @@ class WeatherSearchVM {
     var listName: SearchCacheListName = .searchCacheList
     let title = ScreenName.search.rawValue
     // use real service by default, unless we overriden with mock for dev/test purpose
-    private var weatheService: WeatherServiceProtocol = OpenWeatherAPI.shared
+    private var weatheService: WeatherServiceProtocol = OpenWeatherService.shared
     private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     private var locationService: WLocationServiceProtocol = WLocationService.shared
     private let defaultUseGPSCellTitle = "Use my current location"

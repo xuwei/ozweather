@@ -8,10 +8,10 @@
 import Foundation
 import CoreLocation
 
-class OpenWeatherAPIMock: WeatherServiceProtocol {
+class OpenWeatherServiceMock: WeatherServiceProtocol {
     
-    static let shared = OpenWeatherAPIMock()
-    let mockLocation = OpenWeatherMockUtil().mockWeatherForecast()
+    static let shared = OpenWeatherServiceMock()
+    let mockLocation = OpenWeatherServiceMockUtil().mockWeatherForecast()
     let validZipCode = "30303"
     
     private init() { }
