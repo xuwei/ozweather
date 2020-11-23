@@ -87,7 +87,7 @@ extension WeatherSearchVM {
         }
     }
     
-    func queueSearch(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
+    func search(_ req: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)->Void) {
         
         if validateSearchRequest(req) != true { completionHandler(.failure(.invalidParamFormat)); return }
         // query for forecast

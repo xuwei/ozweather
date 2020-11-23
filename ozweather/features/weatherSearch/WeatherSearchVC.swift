@@ -167,11 +167,24 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
         print("use current location")
-        if self.viewModel.isLocationServiceActive(), let location = self.viewModel.location {
+        if self.viewModel.isLocationServiceActive(),
+           let location = self.viewModel.location {
             let request = WeatherSearchRequest(coord: location, type: .gpsCoord)
-            let weatherDetailsVM = WeatherDetailsVM(title: "My location", weatheService: OpenWeatherAPIMock.shared, request: request)
-            pushToWeatherDetailsWith(vm: weatherDetailsVM)
-        } else {
+            self.viewModel.search(request) { result in
+                DispatchQueue.main.async { [weak self]  in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let forecast):
+                        let weatherDetailsVM = WeatherDetailsVM(title: "GPS Location", weatheService: OpenWeatherAPI.shared, request: request, forecast: forecast)
+                        self.pushToWeatherDetailsWith(vm: weatherDetailsVM)
+                        break
+                    case .failure(let error):
+                        self.alert(error: error, completionHandler: nil)
+                        break
+                }
+            }
+        }
+        }else {
             self.viewModel.startLocationService()
         }
     }
@@ -187,7 +200,7 @@ extension WeatherSearchVC: UISearchBarDelegate {
         guard let searchReq = self.viewModel.toSearchRequest(text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
         
         self.showLoading()
-        self.viewModel.queueSearch(searchReq) { result in
+        self.viewModel.search(searchReq) { result in
             DispatchQueue.main.async { [weak self]  in
                 guard let self = self else { return }
                 self.endLoading()

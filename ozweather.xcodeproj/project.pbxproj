@@ -209,7 +209,6 @@
 		96606D492568B91C006B6CF5 /* tableviewCell */ = {
 			isa = PBXGroup;
 			children = (
-				9663F93C256B35F700DDFFB9 /* forecast */,
 				96606D672568C093006B6CF5 /* useGps */,
 				96606D662568C082006B6CF5 /* recent */,
 			);
@@ -277,6 +276,14 @@
 				9663F93D256B360F00DDFFB9 /* WeatherForecastCell.xib */,
 			);
 			path = forecast;
+			sourceTree = "<group>";
+		};
+		9663F94D256B41E100DDFFB9 /* tableviewCell */ = {
+			isa = PBXGroup;
+			children = (
+				9663F93C256B35F700DDFFB9 /* forecast */,
+			);
+			path = tableviewCell;
 			sourceTree = "<group>";
 		};
 		9664EAEA256A1EE200A2C3DB /* util */ = {
@@ -403,6 +410,7 @@
 		967E52122565C1C400A28480 /* weatherDetails */ = {
 			isa = PBXGroup;
 			children = (
+				9663F94D256B41E100DDFFB9 /* tableviewCell */,
 				96E64A7325675513006BBEE8 /* viewModel */,
 				966002A92565DA11000877CE /* WeatherDetailsVC.swift */,
 			);

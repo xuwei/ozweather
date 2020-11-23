@@ -116,7 +116,7 @@ extension WeatherSearchVMIntegrationTests {
     func testSearchValidCity () {
         let expectation = XCTestExpectation(description: "search valid city")
         let request = WeatherSearchRequest(city: "Atlanta", type: .city)
-        searchVMWithAPI.queueSearch(request) { result in
+        searchVMWithAPI.search(request) { result in
             switch result {
             case .success(let forecast):
                 XCTAssertTrue(forecast.name == "Atlanta")
@@ -135,7 +135,7 @@ extension WeatherSearchVMIntegrationTests {
     func testSearchValidZipcode () {
         let expectation = XCTestExpectation(description: "search valid zipcode")
         let request = WeatherSearchRequest(zip: "30301", type: .zipCode)
-        searchVMWithAPI.queueSearch(request) { result in
+        searchVMWithAPI.search(request) { result in
             switch result {
             case .success(let forecast):
                 XCTAssertTrue(forecast.name == "Atlanta")
@@ -154,7 +154,7 @@ extension WeatherSearchVMIntegrationTests {
     func testSearchInvalidFormat1 () {
         let expectation = XCTestExpectation(description: "search invalid request")
         let request = WeatherSearchRequest(zip: "Atlanta", type: .zipCode)
-        searchVMWithAPI.queueSearch(request) { result in
+        searchVMWithAPI.search(request) { result in
             switch result {
             case .success(_):
                 XCTFail()
@@ -174,7 +174,7 @@ extension WeatherSearchVMIntegrationTests {
         let expectation = XCTestExpectation(description: "search invalid request")
         let coord = CLLocationCoordinate2D(latitude: -30.0, longitude: -30.0)
         let request = WeatherSearchRequest(coord: coord, type: .gpsCoord)
-        searchVMWithAPI.queueSearch(request) { result in
+        searchVMWithAPI.search(request) { result in
             switch result {
             case .success(_):
                 XCTFail()
