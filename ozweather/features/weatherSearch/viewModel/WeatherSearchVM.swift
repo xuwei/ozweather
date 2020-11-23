@@ -22,7 +22,8 @@ class WeatherSearchVM {
     private var searchCache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     private var locationService: WLocationServiceProtocol = WLocationService.shared
     private let defaultUseGPSCellTitle = "Use my current location"
-    private let defaultUseGPSCellCaption = "requires permission to detect location"
+    private let defaultUseGPSCellCaptionNotActive = "requires permission to detect location"
+    private let defaultUseGPSCellCaptionActive = "Waiting for update from service..."
     var sections: [WeatherSearchSection] = []
     var location: CLLocationCoordinate2D?
     
@@ -46,11 +47,14 @@ class WeatherSearchVM {
     private func loadUseGPSSection()->WeatherSearchSection {
         let sectionTitle = "current location"
         var gpsLocation: UseGPSLocationCellVM
-        if let location =  self.location {
-            let stringifyCoord = StringifyUtil.shared.stringifyCoord(latitude: location.latitude, longitude: location.longitude)
-            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: stringifyCoord)
+        if self.isLocationServiceActive() {
+            var caption = defaultUseGPSCellCaptionActive
+            if let location =  self.location {
+                caption = StringifyUtil.shared.stringifyCoord(latitude: location.latitude, longitude: location.longitude)
+            }
+            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: caption, locationServiceActive: self.isLocationServiceActive())
         } else {
-            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaption)
+            gpsLocation = UseGPSLocationCellVM(title: defaultUseGPSCellTitle, caption: defaultUseGPSCellCaptionNotActive, locationServiceActive: self.isLocationServiceActive())
         }
         return WeatherSearchSection(title: sectionTitle, cellVMList:  [gpsLocation])
     }
@@ -148,9 +152,7 @@ extension WeatherSearchVM {
     }
     
     func startLocationService() {
-        if (self.locationService.isActive() == true) {
-            self.locationService.start()
-        }
+        self.locationService.start()
     }
     
     func stopLocationService() {

@@ -26,6 +26,10 @@ class WeatherSearchVC: WTableVC {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        // start service even when it's active
+        if viewModel.isLocationServiceActive() {
+            self.viewModel.startLocationService()
+        }
         addLocationEventObserver()
         viewModel.loadRecent() {
             DispatchQueue.main.async { [weak self] in

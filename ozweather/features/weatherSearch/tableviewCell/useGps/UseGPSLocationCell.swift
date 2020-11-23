@@ -19,8 +19,8 @@ class UseGPSLocationCell: UITableViewCell {
     @IBOutlet weak var caption: UILabel!
     @IBOutlet weak var containerView: UIView!
     var delegate: UseGPSLocationCellDelegate?
-    
-    var viewModel = UseGPSLocationCellVM(title: "", caption: "")
+    let theme: ThemeProtocol = AppData.shared.theme
+    var viewModel = UseGPSLocationCellVM(title: "", caption: "", locationServiceActive: false)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,7 +29,6 @@ class UseGPSLocationCell: UITableViewCell {
     }
     
     private func setupUI() {
-        let theme: ThemeProtocol = AppData.shared.theme
         containerView.backgroundColor = theme.primaryColor
         title.textColor = theme.primaryTextColor
         caption.textColor = theme.primaryTextColor
@@ -49,6 +48,7 @@ class UseGPSLocationCell: UITableViewCell {
         // reset title
         title.text = ""
         caption.text = ""
+        containerView.backgroundColor = theme.backgroundColor
     }
 }
 
@@ -58,5 +58,6 @@ extension UseGPSLocationCell: TableViewCellProtocol {
         self.title.text = viewModel.title
         self.caption.text = viewModel.caption
         self.viewModel = viewModel
+        containerView.backgroundColor = viewModel.locationServiceActive ? theme.primaryColor : theme.backgroundColor
     }
 }

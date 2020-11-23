@@ -11,4 +11,6 @@ struct UseGPSLocationCellVM: TableViewCellVMProtocol {
     let identifier = UseGPSLocationCell.identifier
     let title: String
     let caption: String
+    let locationServiceActive: Bool
+    
 }
