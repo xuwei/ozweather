@@ -116,6 +116,17 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
         return self.viewModel.sections[section].title
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = AppData.shared.theme.secondaryTextColor
+        let title = UILabel()
+        title.textColor = AppData.shared.theme.primaryTextColor
+        title.text = self.viewModel.sections[section].title
+        view.addSubview(title)
+        AutoLayoutUtil.shared.pinToSuperView(title, left: 10.0, right: 10.0, top: 0.0, bottom: 0.0)
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellModel = viewModel.sections[indexPath.section].cellVMList[indexPath.row]
         guard let cell: TableViewCellProtocol = tableView.dequeueReusableCell(withIdentifier: cellModel.identifier, for: indexPath) as? TableViewCellProtocol else {

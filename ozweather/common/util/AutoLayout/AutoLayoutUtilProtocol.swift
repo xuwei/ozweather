@@ -8,5 +8,6 @@
 import UIKit
 
 protocol AutoLayoutUtilProtocol {
+    func pinToSuperView (_ view: UIView, left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat)
     func pinToSuperviewCenter(_ view: UIView, width: CGFloat, height: CGFloat)
 }

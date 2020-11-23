@@ -9,6 +9,11 @@ import UIKit
 
 class WTableVC: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = AppData.shared.theme.backgroundColor
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     var loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let loadingIndicatorSize: CGFloat = 50.0
