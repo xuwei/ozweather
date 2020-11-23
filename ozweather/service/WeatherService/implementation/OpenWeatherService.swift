@@ -16,14 +16,15 @@ class OpenWeatherService: WeatherServiceProtocol {
     private let domain = "api.openweathermap.org"
     private let path = "/data/2.5/weather"
     private let units = "metric"
+    private let timeout = 15.0
     private let session: URLSession
     private var dataTask: URLSessionDataTask?
     
     private init() {
         let sessionConfig = URLSessionConfiguration.default
         // added timeout to avoid getting stuck when connectivity is cut
-        sessionConfig.timeoutIntervalForRequest = 10.0
-        sessionConfig.timeoutIntervalForResource = 20.0
+        sessionConfig.timeoutIntervalForRequest = timeout
+        sessionConfig.timeoutIntervalForResource = timeout
         session = URLSession(configuration: sessionConfig)
     }
     

@@ -24,6 +24,7 @@ protocol ThemeProtocol {
 class AppData {
     static let shared = AppData()
     let theme: ThemeProtocol = GumtreeTheme()
-    
+    let standardPaddingSize: CGFloat = 10.0
+    let timeout: CGFloat = 15.0
     private init() { }
 }

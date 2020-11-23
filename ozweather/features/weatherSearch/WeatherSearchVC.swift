@@ -123,7 +123,7 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
         title.textColor = AppData.shared.theme.primaryTextColor
         title.text = self.viewModel.sections[section].title
         view.addSubview(title)
-        AutoLayoutUtil.shared.pinToSuperView(title, left: 10.0, right: 10.0, top: 0.0, bottom: 0.0)
+        AutoLayoutUtil.shared.pinToSuperView(title, left: AppData.shared.standardPaddingSize, right: AppData.shared.standardPaddingSize, top: 0.0, bottom: 0.0)
         return view
     }
     
