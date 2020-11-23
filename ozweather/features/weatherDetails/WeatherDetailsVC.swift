@@ -23,6 +23,17 @@ class WeatherDetailsVC: UIViewController {
 
     }
     
+    // register for notification events when viewcontroller appears
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.refreshForecast { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
+        }
+    }
+        
     private func setupTableview() {
         guard let tableView = self.tableView else { return }
         
@@ -39,21 +50,24 @@ class WeatherDetailsVC: UIViewController {
         guard self.tableView != nil else { return }
         
         // cell for recent searched weather location
-        let nib = UINib(nibName: WeatherLocationCell.identifier, bundle: nil)
-        self.tableView.register(nib, forCellReuseIdentifier: WeatherLocationCell.identifier)
-        
-        // cell for current location with gps
-        let nib2 = UINib(nibName: UseGPSLocationCell.identifier, bundle: nil)
-        self.tableView.register(nib2, forCellReuseIdentifier: UseGPSLocationCell.identifier)
+        let nib = UINib(nibName: WeatherForecastCell.identifier, bundle: nil)
+        self.tableView.register(nib, forCellReuseIdentifier: WeatherForecastCell.identifier)
     }
 }
 
 extension WeatherDetailsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        let rows = self.viewModel.forecastLoaded() ? 1 : 0
+        return rows
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return  UITableViewCell()
+
+        guard let cellModel = self.viewModel.cellVM, let cell: TableViewCellProtocol = tableView.dequeueReusableCell(withIdentifier: cellModel.identifier, for: indexPath) as? TableViewCellProtocol else {
+            return UITableViewCell()
+        }
+        
+        cell.setupWith(cellModel)
+        return cell as? UITableViewCell ?? UITableViewCell()
     }
 }

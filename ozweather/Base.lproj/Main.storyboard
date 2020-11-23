@@ -75,8 +75,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="eIq-C1-v1R" id="YaZ-PS-UUB"/>
+                            <outlet property="delegate" destination="eIq-C1-v1R" id="5Wk-Ej-GVr"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="iSg-9s-g0o"/>
+                    <connections>
+                        <outlet property="tableView" destination="cKm-jH-ZWq" id="tcq-d3-W4c"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3T3-e7-yzB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

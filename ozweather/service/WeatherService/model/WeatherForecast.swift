@@ -37,6 +37,10 @@ struct Coord: Codable {
         case longitude = "lon"
         case latitude = "lat"
     }
+    
+    func stringify()->String {
+        return String("lat:\(latitude),lon:\(longitude)")
+    }
 }
 
 struct Weather: Codable {
