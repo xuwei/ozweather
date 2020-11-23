@@ -10,6 +10,7 @@ import UIKit
 class WeatherForecastCell: UITableViewCell {
     
     static let identifier: String = "WeatherForecastCell"
+    private let placeholderImage = "weatherIconPlaceholder"
    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var weatherLocationLabel: UILabel!
@@ -40,7 +41,7 @@ class WeatherForecastCell: UITableViewCell {
         weatherDescriptionLabel.text = ""
         feelsLikeTemperatureLabel.text = ""
         countryLabel.text = ""
-//        weatherImageIcon.image = nil
+        weatherImageIcon.image = UIImage.init(named: placeholderImage)
     }
 }
 
