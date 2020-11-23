@@ -29,13 +29,22 @@ class WeatherDetailsVC: WTableVC {
             addLocationEventObserver()
         }
         self.showLoading()
-        self.viewModel.refreshForecast { _ in
+        self.viewModel.refreshForecast { result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.endLoading()
-                self.tableView.reloadData()
+                switch result {
+                case .success(_):
+                    self.tableView.reloadData()
+                    break
+                case .failure(let error):
+                    self.alert(error: error, completionHandler: nil)
+                    break
+                }
+                
             }
         }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -63,12 +72,22 @@ class WeatherDetailsVC: WTableVC {
     }
     
     @objc override func refresh() {
-        self.refreshControl.beginRefreshing()
-        self.viewModel.refreshForecast { _ in
+        self.viewModel.refreshForecast { result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.refreshControl.endRefreshing()
-                self.tableView.reloadData()
+                switch result {
+                case .success(_):
+                    self.tableView.reloadData()
+                    break
+                case .failure(let error):
+                    self.alert(error: error) { action in
+                        // When there is an alert, the refreshControl endRefreshing is not finishing, hence this workaround
+                        self.tableView.contentOffset = .zero
+                    }
+                    break
+                }
+                
             }
         }
     }

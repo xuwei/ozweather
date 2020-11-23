@@ -16,10 +16,15 @@ class OpenWeatherService: WeatherServiceProtocol {
     private let domain = "api.openweathermap.org"
     private let path = "/data/2.5/weather"
     private let units = "metric"
-    private let session: URLSession = URLSession(configuration: .default)
+    private let session: URLSession
     private var dataTask: URLSessionDataTask?
     
     private init() {
+        let sessionConfig = URLSessionConfiguration.default
+        // added timeout to avoid getting stuck when connectivity is cut
+        sessionConfig.timeoutIntervalForRequest = 10.0
+        sessionConfig.timeoutIntervalForResource = 20.0
+        session = URLSession(configuration: sessionConfig)
     }
     
     func searchBy(query: WeatherSearchRequest, completionHandler: @escaping (Result<WeatherForecast, WeatherServiceError>)-> Void) {
@@ -93,7 +98,7 @@ class OpenWeatherService: WeatherServiceProtocol {
         if err != nil { completionHandler(.failure(.genericError)); return }
         
         guard let data = data, let response = response as? HTTPURLResponse, response.statusCode == HttpStatusSuccess else {
-            completionHandler(.failure(.genericError)); return
+            completionHandler(.failure(.invalidParam)); return
         }
         
         let resultDecoder = JSONDecoder()
