@@ -13,8 +13,11 @@ class WeatherSearchCacheTests: XCTestCase {
     let cache: WeatherSearchCacheManagerProtocol = WeatherSearchCache.shared
     let cacheQueueName = "testQueue"
     
-    func testEnqueueAndGetQeue() {
+    override func setUp() {
         cache.clearList(listName: .testSearchCacheList)
+    }
+    
+    func testEnqueueAndGetQeue() {
         let item1 = WeatherSearchCacheItem(city: "Atlanta", zipCode: nil, longitude: nil, latitude: nil, type: .city)
         var items = cache.enqueue(listName: .testSearchCacheList, element: item1)
         XCTAssertTrue(items.count == 1)
@@ -24,7 +27,6 @@ class WeatherSearchCacheTests: XCTestCase {
     }
     
     func testEnqueueDuplicates() {
-        cache.clearList(listName: .testSearchCacheList)
         let item1 = WeatherSearchCacheItem(city: "Atlanta", zipCode: nil, longitude: nil, latitude: nil, type: .city)
         let item2 = WeatherSearchCacheItem(city: "Hong Kong", zipCode: nil, longitude: nil, latitude: nil, type: .city)
         
@@ -39,7 +41,6 @@ class WeatherSearchCacheTests: XCTestCase {
     }
 
     func testClearlist() {
-        cache.clearList(listName: .testSearchCacheList)
         let item1 = WeatherSearchCacheItem(city: "Atlanta", zipCode: nil, longitude: nil, latitude: nil, type: .city)
         
         let item2 = WeatherSearchCacheItem(city: "Chicago", zipCode: nil, longitude: nil, latitude: nil, type: .city)
@@ -53,5 +54,18 @@ class WeatherSearchCacheTests: XCTestCase {
         cache.clearList(listName: .testSearchCacheList)
         items = cache.getQueue(listName: .testSearchCacheList) ?? []
         XCTAssertTrue(items.count == 0)
+    }
+    
+    func testEnqueueMoreThanMax() {
+        
+        for index in 0...1000 {
+            let item = WeatherSearchCacheItem(zipCode: String(index), type: .zipCode)
+            let _ = cache.enqueue(listName: .testSearchCacheList, element: item)
+        }
+        
+        let items = cache.getQueue(listName: .testSearchCacheList) ?? []
+        XCTAssertTrue(items.count == WeatherSearchCache.shared.cacheMax)
+        guard let last = items.last else { XCTFail(); return }
+        XCTAssertTrue(last.zipCode == "1000")
     }
 }

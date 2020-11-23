@@ -21,8 +21,8 @@ class WeatherSearchCacheItemTests: XCTestCase {
     }
     
     func testToStringForCoord() {
-        let cacheItem = WeatherSearchCacheItem(longitude: 30.0, latitude: 30.0, type: .gpsCoord)
-        print(cacheItem.stringify())
-        XCTAssertTrue(cacheItem.stringify() == "lat:30.0,lon:30.0")
+        let cacheItem = WeatherSearchCacheItem(longitude: 30.0, latitude: -30.002, type: .gpsCoord)
+        let result = cacheItem.stringify()
+        XCTAssertTrue(result == "lat: -30.002, lon: 30.000")
     }
 }
