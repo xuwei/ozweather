@@ -38,7 +38,6 @@
 		9664EB0B256A7D3F00A2C3DB /* WLocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB0A256A7D3F00A2C3DB /* WLocationServiceProtocol.swift */; };
 		9664EB0F256A7D5000A2C3DB /* WLocationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */; };
 		9664EB25256A848700A2C3DB /* CLLocationCoordinate2D+Stringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB24256A848700A2C3DB /* CLLocationCoordinate2D+Stringify.swift */; };
-		9664EB29256A86F700A2C3DB /* UIViewController+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */; };
 		9664EB34256A956600A2C3DB /* UIViewController+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */; };
 		967E51DA2565BEE800A28480 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51D92565BEE800A28480 /* AppDelegate.swift */; };
 		967E51DC2565BEE800A28480 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E51DB2565BEE800A28480 /* SceneDelegate.swift */; };
@@ -121,7 +120,6 @@
 		9664EB0A256A7D3F00A2C3DB /* WLocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationServiceProtocol.swift; sourceTree = "<group>"; };
 		9664EB0E256A7D5000A2C3DB /* WLocationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WLocationServiceMock.swift; sourceTree = "<group>"; };
 		9664EB24256A848700A2C3DB /* CLLocationCoordinate2D+Stringify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Stringify.swift"; sourceTree = "<group>"; };
-		9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Notifications.swift"; sourceTree = "<group>"; };
 		9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TopViewController.swift"; sourceTree = "<group>"; };
 		967E51D62565BEE800A28480 /* ozweather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ozweather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		967E51D92565BEE800A28480 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -527,7 +525,6 @@
 				96606D9A2569202E006B6CF5 /* UIViewController+TapToDismissKeyboard.swift */,
 				9664EAD82569D89600A2C3DB /* UIViewController+Nav.swift */,
 				9664EAE6256A185800A2C3DB /* UIViewController+AlertError.swift */,
-				9664EB28256A86F700A2C3DB /* UIViewController+Notifications.swift */,
 				9664EB33256A956600A2C3DB /* UIViewController+TopViewController.swift */,
 			);
 			path = extension;
@@ -877,7 +874,6 @@
 				96606D4F2568B947006B6CF5 /* WeatherLocationCell.swift in Sources */,
 				967E525A2565D27F00A28480 /* OpenWeatherMockUtil.swift in Sources */,
 				9664EB0F256A7D5000A2C3DB /* WLocationServiceMock.swift in Sources */,
-				9664EB29256A86F700A2C3DB /* UIViewController+Notifications.swift in Sources */,
 				9664EB25256A848700A2C3DB /* CLLocationCoordinate2D+Stringify.swift in Sources */,
 				9692E5FD25664117002C2D65 /* WeatherServiceError.swift in Sources */,
 				9664EAD92569D89600A2C3DB /* UIViewController+Nav.swift in Sources */,
