@@ -99,7 +99,7 @@ class OpenWeatherAPIIntegrationTests: XCTestCase {
                 expectation.fulfill()
                 break
             case .failure(let err):
-                XCTAssertTrue(err == .genericError)
+                XCTAssertTrue(err == .invalidParam)
                 expectation.fulfill()
                 break
             }
