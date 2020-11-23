@@ -10,6 +10,7 @@ import UIKit
 extension UIViewController {
     
     func alert(error: Error, completionHandler: (()->Void)?) {
+        BasicLogger.shared.logError(error)
         let alertVC = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         var top: UIViewController = self

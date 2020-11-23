@@ -13,7 +13,7 @@ class WeatherDetailsVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let refreshControl = UIRefreshControl()
  
-    var viewModel = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: "", type: .city))
+    var viewModel: WeatherDetailsVM = WeatherDetailsVM(title: "", weatheService: OpenWeatherAPI.shared, request: WeatherSearchRequest(city: "", type: .city))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +27,12 @@ class WeatherDetailsVC: UIViewController {
     // register for notification events when viewcontroller appears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.viewModel.refreshForecast { _ in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
+        }
     }
         
     private func setupTableview() {

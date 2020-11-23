@@ -146,7 +146,7 @@ extension WeatherSearchVC: UITableViewDelegate, UITableViewDataSource {
 extension WeatherSearchVC: WeatherLocationCellDelegate {
     
     func delete(vm: WeatherLocationCellVM) {
-        print("delete")
+        BasicLogger.shared.log("delete recent")
         self.viewModel.removeRecent(vm)
         self.viewModel.loadRecent {
             DispatchQueue.main.async { [weak self] in
@@ -157,16 +157,18 @@ extension WeatherSearchVC: WeatherLocationCellDelegate {
     }
     
     func weatherForecast(vm: WeatherLocationCellVM) {
-        print("weather location selected")
-        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherAPIMock.shared, request: WeatherSearchRequest(city: vm.text, type: vm.type))
+        BasicLogger.shared.log("weather location selected")
+        guard let req = self.viewModel.toSearchRequest(vm.text) else { alert(error: WeatherServiceError.invalidParamFormat, completionHandler: nil); return }
+        let weatherDetailsVM = WeatherDetailsVM(title: vm.text,weatheService: OpenWeatherAPI.shared, request: req)
         pushToWeatherDetailsWith(vm: weatherDetailsVM)
     }
 }
 
 // MARK: UseGPSLocationCellDelegate
 extension WeatherSearchVC: UseGPSLocationCellDelegate {
+    
     func useCurrentLocation(vm: UseGPSLocationCellVM) {
-        print("use current location")
+        BasicLogger.shared.log("use current location")
         if self.viewModel.isLocationServiceActive(),
            let location = self.viewModel.location {
             let request = WeatherSearchRequest(coord: location, type: .gpsCoord)
@@ -181,10 +183,10 @@ extension WeatherSearchVC: UseGPSLocationCellDelegate {
                     case .failure(let error):
                         self.alert(error: error, completionHandler: nil)
                         break
+                    }
                 }
             }
-        }
-        }else {
+        } else {
             self.viewModel.startLocationService()
         }
     }
